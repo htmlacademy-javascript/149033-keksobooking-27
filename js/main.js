@@ -1,18 +1,22 @@
+const isNegativeArgument = (value) => value < 0;
+const isNoFiniteNumber = (value) => !Number.isFinite(value);
+const isValidArguments = (minValue, maxValue) => {
+  if (isNegativeArgument(minValue)) {
+    throw new RangeError(`${minValue} меньше 0`);
+  }
+  if (isNegativeArgument(maxValue)) {
+    throw new RangeError(`${maxValue} меньше 0`);
+  }
+  if (isNoFiniteNumber(minValue)) {
+    throw new RangeError(`Проверьте значение ${minValue} введеного аргумента`);
+  }
+  if (isNoFiniteNumber(maxValue)) {
+    throw new RangeError(`Проверьте значение ${maxValue} введеного аргумента`);
+  }
+};
 
 const getRandomIntInclusive = (minValue, maxValue) => {
-
-  const isNegative = (value) => value < 0;
-  if (isNegative(minValue)) {
-    throw new RangeError('Параметр должен меньше 0' ) ;
-  }
-  if (isNegative(maxValue)) {
-    throw new RangeError('Параметр должен меньше 0' ) ;
-  }
-
-
-  if (!Number.isFinite(minValue) || !Number.isFinite(maxValue)) {
-    return NaN;
-  }
+  isValidArguments(minValue, maxValue);
 
   let min = Math.min(minValue, maxValue);
   let max = Math.max(minValue, maxValue);
@@ -22,17 +26,7 @@ const getRandomIntInclusive = (minValue, maxValue) => {
 };
 
 const getRandomFloat = (minValue, maxValue, digits = 1) => {
-  if (minValue < 0 || maxValue < 0 || digits < 0) {
-    return NaN;
-  }
-
-  if (
-    !Number.isFinite(minValue) ||
-    !Number.isFinite(maxValue) ||
-    !Number.isInteger(digits)
-  ) {
-    return NaN;
-  }
+  isValidArguments(minValue, maxValue);
 
   const min = Math.min(minValue, maxValue);
   const max = Math.max(minValue, maxValue);
@@ -40,6 +34,9 @@ const getRandomFloat = (minValue, maxValue, digits = 1) => {
   return Number(res.toFixed(digits));
 };
 
-
-getRandomIntInclusive(-1, 1);
-getRandomFloat(0, 10, 2);
+try {
+  getRandomIntInclusive(-1, 1);
+  getRandomFloat(0, 10, 2);
+} catch (error) {
+  //
+}
