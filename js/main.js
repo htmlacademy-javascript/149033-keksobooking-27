@@ -34,9 +34,6 @@ const getRandomFloat = (minValue, maxValue, digits = 1) => {
   return Number(res.toFixed(digits));
 };
 
-try {
-  getRandomIntInclusive(-1, 1);
-  getRandomFloat(0, 10, 2);
-} catch (error) {
-  //
-}
+getRandomIntInclusive(1, 1);
+getRandomFloat(0, 10, 2);
+
