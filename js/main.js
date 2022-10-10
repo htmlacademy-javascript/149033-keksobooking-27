@@ -1,18 +1,13 @@
-const isNegativeArgument = (value) => value < 0;
-const isNoFiniteNumber = (value) => !Number.isFinite(value);
+const isPositiveArgument = (value) => value >= 0;
+const isFiniteNumber = (value) => Number.isFinite(value);
 const isValidArguments = (minValue, maxValue) => {
-  if (isNegativeArgument(minValue)) {
-    throw new RangeError(`${minValue} меньше 0`);
-  }
-  if (isNegativeArgument(maxValue)) {
-    throw new RangeError(`${maxValue} меньше 0`);
-  }
-  if (isNoFiniteNumber(minValue)) {
-    throw new RangeError(`Проверьте значение ${minValue} введеного аргумента`);
-  }
-  if (isNoFiniteNumber(maxValue)) {
-    throw new RangeError(`Проверьте значение ${maxValue} введеного аргумента`);
-  }
+  if (
+    isPositiveArgument(minValue) &&
+    isPositiveArgument(maxValue) &&
+    isFiniteNumber(minValue) &&
+    isFiniteNumber(maxValue)
+  ) {return true;}
+  throw new RangeError('Прверьте аргументы');
 };
 
 const getRandomIntInclusive = (minValue, maxValue) => {
@@ -34,9 +29,86 @@ const getRandomFloat = (minValue, maxValue, digits = 1) => {
   return Number(res.toFixed(digits));
 };
 
-try {
-  getRandomIntInclusive(-1, 1);
-  getRandomFloat(0, 10, 2);
-} catch (error) {
-  //
-}
+//исходные константы для обявлений
+const LIST_ADVERTISEMENT_LENGTH = 10;
+const TITLE_OFFER = [
+  'Сдаю в аренду',
+  'Хорошое жилье',
+  'Принимаю гостей',
+  'Жилье в любое время',
+];
+const TYPE_OF_REALTY = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const PRICE_LIMIT = 999999999;
+const ROOMS_LIMIT = 50;
+const NUMBER_GUESTS_LIMIT = 100;
+const CHECKIN = ['12:00', '13:00', '14:00'];
+const CHECKOUT = ['12:00', '13:00', '14:00'];
+const FEATURES_OFFERS = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+const DESCRITION_OFFERS = [
+  'Рядом с метро',
+  'Хорошый вид из окна',
+  'Удобная парковка',
+];
+const PHOTOS_OFFERS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+
+
+//Функция перемешивание элементов массива( "Тасование Фишера — Йетса")
+//https://learn.javascript.ru/task/shuffle
+const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+const shuffleRandomLength = (array) => shuffle(array).slice( getRandomIntInclusive(0, array.length - 1) );
+
+const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
+
+//создание одного обявления
+const createAdvertisement = () => {
+  const lat = getRandomFloat(35.65, 35.7, 5);
+  const lng = getRandomFloat(139.7, 139.8, 5);
+  return {
+    author: {
+      avatar: `img/avatars/user{{${String(
+        getRandomIntInclusive(1, 10)
+      ).padStart(2, '0')}}.png`,
+    },
+    offer: {
+      title: `${getRandomArrayElement(TITLE_OFFER)}`,
+      address: `{{${lat}}}},{{${lng}}}`,
+      price: `${getRandomIntInclusive(0, PRICE_LIMIT)}`,
+      type: `${getRandomArrayElement(TYPE_OF_REALTY)}`,
+      rooms: `${getRandomIntInclusive(0, ROOMS_LIMIT)}`,
+      guests: `${getRandomIntInclusive(0, NUMBER_GUESTS_LIMIT)}`,
+      checkin: `${getRandomArrayElement(CHECKIN)}`,
+      checkout: `${getRandomArrayElement(CHECKOUT)}`,
+      features: shuffleRandomLength(FEATURES_OFFERS),
+      description: `${getRandomArrayElement(DESCRITION_OFFERS)}`,
+      photos: shuffleRandomLength(PHOTOS_OFFERS),
+    },
+    location: {
+      lat: lat,
+      lng: lng,
+    },
+  };
+};
+
+// создание листа обявления
+const creatListAdvertisement = Array.from(
+  { length: LIST_ADVERTISEMENT_LENGTH },
+  createAdvertisement
+);
+console.dir(creatListAdvertisement);
