@@ -29,7 +29,6 @@ const getRandomFloat = (minValue, maxValue, digits = 1) => {
   return Number(res.toFixed(digits));
 };
 
-//исходные константы для обявлений
 const LIST_ADVERTISEMENT_LENGTH = 10;
 const TITLE_OFFER = [
   'Сдаю в аренду',
@@ -63,8 +62,6 @@ const PHOTOS_OFFERS = [
 ];
 
 
-//Функция перемешивание элементов массива( "Тасование Фишера — Йетса")
-//https://learn.javascript.ru/task/shuffle
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -76,7 +73,6 @@ const shuffleRandomLength = (array) => shuffle(array).slice( getRandomIntInclusi
 
 const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
 
-//создание одного обявления
 const createAdvertisement = () => {
   const lat = getRandomFloat(35.65, 35.7, 5);
   const lng = getRandomFloat(139.7, 139.8, 5);
@@ -106,9 +102,9 @@ const createAdvertisement = () => {
   };
 };
 
-// создание листа обявления
 const creatListAdvertisement = Array.from(
   { length: LIST_ADVERTISEMENT_LENGTH },
   createAdvertisement
 );
+
 console.dir(creatListAdvertisement);
