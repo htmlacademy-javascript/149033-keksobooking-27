@@ -36,6 +36,12 @@ const TITLE_OFFER = [
   'Принимаю гостей',
   'Жилье в любое время',
 ];
+const Location = {
+  MIN_LONGITUDE: 139.7,
+  MAX_LONGITUDE: 139.8,
+  MIN_LATITUDE: 35.65,
+  MAX_LATITUDE: 35.7
+};
 const TYPE_OF_REALTY = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const PRICE_LIMIT = 999999999;
 const ROOMS_LIMIT = 50;
@@ -74,8 +80,8 @@ const shuffleRandomLength = (array) => shuffle(array).slice( getRandomIntInclusi
 const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
 
 const createAdvertisement = () => {
-  const lat = getRandomFloat(35.65, 35.7, 5);
-  const lng = getRandomFloat(139.7, 139.8, 5);
+  const lat = getRandomFloat(Location.MIN_LATITUDE, Location.MAX_LATITUDE, 5);
+  const lng = getRandomFloat(Location.MIN_LONGITUDE, Location.MAX_LONGITUDE, 5);
   return {
     author: {
       avatar: `img/avatars/user{{${String(
@@ -107,4 +113,4 @@ const creatListAdvertisement = Array.from(
   createAdvertisement
 );
 
-console.dir(creatListAdvertisement);
+creatListAdvertisement();
