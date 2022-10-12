@@ -107,4 +107,4 @@ const creatListAdvertisement = Array.from(
   createAdvertisement
 );
 
-console.dir(creatListAdvertisement);
+creatListAdvertisement();
