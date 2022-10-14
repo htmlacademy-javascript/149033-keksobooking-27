@@ -7,12 +7,12 @@ const TITLE_OFFER = [
   'Принимаю гостей',
   'Жилье в любое время',
 ];
-const Location = {
-  MIN_LONGITUDE: 139.7,
-  MAX_LONGITUDE: 139.8,
-  MIN_LATITUDE: 35.65,
-  MAX_LATITUDE: 35.7
-};
+
+const MIN_LONGITUDE = 139.7;
+const MAX_LONGITUDE = 139.8;
+const MIN_LATITUDE = 35.65;
+const MAX_LATITUDE = 35.7;
+
 const TYPE_OF_REALTY = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const PRICE_LIMIT = 999999999;
 const ROOMS_LIMIT = 50;
@@ -38,9 +38,18 @@ const PHOTOS_OFFERS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const getRandomLatitude = () =>
+  getRandomFloat( MIN_LATITUDE, MAX_LATITUDE, 5);
+const getRandomLongitude = () =>
+  getRandomFloat(MIN_LONGITUDE, MAX_LONGITUDE, 5);
+
+const creatLocationData = () => ({
+  lat: getRandomLatitude(),
+  lng: getRandomLongitude()
+});
+
 const createAdvertisement = () => {
-  const lat = getRandomFloat(Location.MIN_LATITUDE, Location.MAX_LATITUDE, 5);
-  const lng = getRandomFloat(Location.MIN_LONGITUDE, Location.MAX_LONGITUDE, 5);
+  const location = creatLocationData();
   return {
     author: {
       avatar: `img/avatars/user{{${String(
@@ -49,7 +58,7 @@ const createAdvertisement = () => {
     },
     offer: {
       title: `${getRandomArrayElement(TITLE_OFFER)}`,
-      address: `{{${lat}}}},{{${lng}}}`,
+      address: `{{${location.lat}}}},{{${location.lng}}}`,
       price: `${getRandomIntInclusive(0, PRICE_LIMIT)}`,
       type: `${getRandomArrayElement(TYPE_OF_REALTY)}`,
       rooms: `${getRandomIntInclusive(0, ROOMS_LIMIT)}`,
@@ -60,10 +69,7 @@ const createAdvertisement = () => {
       description: `${getRandomArrayElement(DESCRITION_OFFERS)}`,
       photos: shuffleRandomLength(PHOTOS_OFFERS),
     },
-    location: {
-      lat: lat,
-      lng: lng,
-    },
+    location: location,
   };
 };
 
