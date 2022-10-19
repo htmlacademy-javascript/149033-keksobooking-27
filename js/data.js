@@ -49,7 +49,7 @@ const creatLocationData = () => ({
 });
 
 const creatUrlAvatar = () =>
-  `img/avatars/user{{${String(getRandomIntInclusive(1, 10)).padStart(2, '0')}}.png`;
+  `img/avatars/user${String(getRandomIntInclusive(1, 10)).padStart(2, '0')}.png`;
 
 const createAdvertisement = () => {
   const location = creatLocationData();
@@ -59,7 +59,7 @@ const createAdvertisement = () => {
     },
     offer: {
       title: getRandomArrayElement(TITLE_OFFER),
-      address: `{{${location.lat}}}},{{${location.lng}}}`,
+      address: `${location.lat},${location.lng}`,
       price: getRandomIntInclusive(0, PRICE_LIMIT),
       type: getRandomArrayElement(TYPE_OF_REALTY),
       rooms: getRandomIntInclusive(0, ROOMS_LIMIT),
