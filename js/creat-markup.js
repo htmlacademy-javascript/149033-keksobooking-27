@@ -16,7 +16,7 @@ const offerTypeInRU = {
   'palace': 'Дворец',
   'hotel': 'Отель'
 };
-const isSet = (arg) => arg ?? 'отсутствует описание';
+const isValidNode = (nodeItem, arg) => arg ?? nodeItem.remove();
 
 advertisements.forEach((element) => {
   const advertisement = advertismentTemplate.cloneNode(true);
@@ -35,12 +35,27 @@ advertisements.forEach((element) => {
     photos,
   } = element.offer;
 
-  advertisement.querySelector('.popup__title').textContent = isSet(title);
-  advertisement.querySelector('.popup__text--address').textContent = isSet(address);
-  advertisement.querySelector('.popup__text--price').textContent = `${isSet(price)} ₽/ночь`;
-  advertisement.querySelector('.popup__type').textContent = isSet( offerTypeInRU[type] );
-  advertisement.querySelector('.popup__text--capacity').textContent = `${isSet(rooms)} комнаты для ${isSet(guests)} гостей`;
-  advertisement.querySelector('.popup__text--time').textContent = `Заезд после ${isSet(checkin)}, выезд до ${isSet(checkout)}`;
+  const popupTitle = advertisement.querySelector('.popup__title');
+  popupTitle.textContent = isValidNode(popupTitle, title);
+
+  const popupAddress = advertisement.querySelector('.popup__text--address');
+  popupAddress.textContent = isValidNode(popupAddress, address);
+
+  const popupPrice = advertisement.querySelector('.popup__text--price');
+  popupPrice.textContent = `${isValidNode(popupPrice,price)} ₽/ночь`;
+
+  const popupType = advertisement.querySelector('.popup__type');
+  popupType.textContent = isValidNode(popupType,offerTypeInRU[type]);
+
+  const popupCapacity = advertisement.querySelector('.popup__text--capacity');
+  isValidNode(popupCapacity,rooms);
+  isValidNode(popupCapacity,guests);
+  popupCapacity.textContent = `${rooms} комнаты для ${guests} гостей`;
+
+  const popupTime = advertisement.querySelector('.popup__text--time');
+  isValidNode(popupTime,checkin);
+  isValidNode(popupTime,checkout);
+  popupTime.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
   const featuresTemplate = advertisement.querySelector('.popup__features');
   featuresTemplate.innerHTML = '';
@@ -48,11 +63,15 @@ advertisements.forEach((element) => {
     const featureItem = document.createElement('li');
     featureItem.classList.add('popup__features');
     featureItem.classList.add(`popup__features--${item}`);
-    featureItem.textContent = isSet(item);
-    featuresTemplate.append(featureItem);
+    featureItem.textContent = item;
+    if(item !== undefined) {
+      featuresTemplate.append(featureItem);
+    }
   });
 
-  advertisement.querySelector('.popup__description').textContent = isSet(description);
+  const popupDescription = advertisement.querySelector('.popup__description');
+  popupDescription.textContent = isValidNode(popupDescription,description);
+
   const popupPhotos = advertisement.querySelector('.popup__photos');
   const popupPhoto = advertisement.querySelectorAll('.popup__photo');
 
@@ -63,14 +82,9 @@ advertisements.forEach((element) => {
   });
   popupPhotos.children[0].remove();
 
-  if (element.author.avatar === undefined) {
-    advertisement
-      .querySelector('.popup__avatar')
-      .setAttribute('alt', 'отсутвует описание');
-  }
-  advertisement
-    .querySelector('.popup__avatar')
-    .setAttribute('src', element.author.avatar);
+  const popupAvatar = advertisement.querySelector('.popup__avatar');
+  isValidNode(popupAvatar,element.author.avatar);
+  popupAvatar.setAttribute('src', element.author.avatar);
 
   fragment.append(advertisement);
 });

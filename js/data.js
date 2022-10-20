@@ -14,7 +14,7 @@ const MIN_LATITUDE = 35.65;
 const MAX_LATITUDE = 35.7;
 
 const TYPE_OF_REALTY = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const PRICE_LIMIT = 999999999;
+const PRICE_LIMIT = 100000;
 const ROOMS_LIMIT = 50;
 const NUMBER_GUESTS_LIMIT = 100;
 const CHECKIN = ['12:00', '13:00', '14:00'];
