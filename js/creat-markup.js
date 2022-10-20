@@ -9,15 +9,12 @@ const advertisements = creatListAdvertisement();
 
 const fragment = document.createDocumentFragment();
 
-const getOfferTypeInRU = (type) => {
-  const mapTypeInRU = new Map();
-  mapTypeInRU
-    .set('flat', 'Квартира')
-    .set('bungalow', 'Бунгало')
-    .set('house', 'Дом')
-    .set('palace', 'Дворец')
-    .set('hotel', 'Отель');
-  return mapTypeInRU.get(type);
+const offerTypeInRU = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
 };
 const isSet = (arg) => arg ?? 'отсутствует описание';
 
@@ -41,7 +38,7 @@ advertisements.forEach((element) => {
   advertisement.querySelector('.popup__title').textContent = isSet(title);
   advertisement.querySelector('.popup__text--address').textContent = isSet(address);
   advertisement.querySelector('.popup__text--price').textContent = `${isSet(price)} ₽/ночь`;
-  advertisement.querySelector('.popup__type').textContent = isSet( getOfferTypeInRU(type) );
+  advertisement.querySelector('.popup__type').textContent = isSet( offerTypeInRU[type] );
   advertisement.querySelector('.popup__text--capacity').textContent = `${isSet(rooms)} комнаты для ${isSet(guests)} гостей`;
   advertisement.querySelector('.popup__text--time').textContent = `Заезд после ${isSet(checkin)}, выезд до ${isSet(checkout)}`;
 
