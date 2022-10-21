@@ -47,8 +47,6 @@ const creatAdvertisement = (advertisement) => {
   const offer = advertisement.offer;
   const author = advertisement.author;
 
-  console.log(advertisement);
-
   popup.querySelector('.popup__avatar').setAttribute('src', author.avatar);
   popup.querySelector('.popup__title').textContent = offer.title;
   popup.querySelector('.popup__text--address').textContent = offer.address;
@@ -64,13 +62,19 @@ const creatAdvertisement = (advertisement) => {
   return popup;
 };
 
-const creatAdvertisements = (advertisements) => {
-  console.log(advertisements);
-  return creatAdvertisement(advertisements[0]);
-};
+// const creatAdvertisements = (advertisementItems) => {
+//   console.log();
+//   creatAdvertisement(advertisementItem));
+//   return list1;
+
+// };
+
+
+console.log(creatAdvertisements(advertisements));
 
 fragment.append(creatAdvertisements(advertisements));
-mapCanvas.append(fragment.childNodes[0]);
+//fragment.append(creatAdvertisements(advertisements));
+mapCanvas.append(fragment.childNodes[1]);
 
 // advertisements.forEach((element) => {
 //   const advertisement = advertismentTemplate.cloneNode(true);
