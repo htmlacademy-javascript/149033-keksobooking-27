@@ -7,12 +7,12 @@ const TITLE_OFFER = [
   'Принимаю гостей',
   'Жилье в любое время',
 ];
-
-const MIN_LONGITUDE = 139.7;
-const MAX_LONGITUDE = 139.8;
-const MIN_LATITUDE = 35.65;
-const MAX_LATITUDE = 35.7;
-
+const LOCATION = {
+  MAX_LONGITUDE : 139.8,
+  MIN_LONGITUDE : 139.7,
+  MIN_LATITUDE : 35.65,
+  MAX_LATITUDE : 35.7
+};
 const TYPE_OF_REALTY = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const PRICE_LIMIT = 100000;
 const ROOMS_LIMIT = 50;
@@ -38,14 +38,9 @@ const PHOTOS_OFFERS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const getRandomLatitude = () =>
-  getRandomFloat( MIN_LATITUDE, MAX_LATITUDE, 5);
-const getRandomLongitude = () =>
-  getRandomFloat(MIN_LONGITUDE, MAX_LONGITUDE, 5);
-
 const creatLocationData = () => ({
-  lat: getRandomLatitude(),
-  lng: getRandomLongitude()
+  lat: getRandomFloat( LOCATION.MIN_LATITUDE, LOCATION.MAX_LATITUDE, 5),
+  lng: getRandomFloat( LOCATION.MIN_LONGITUDE, LOCATION.MAX_LONGITUDE, 5)
 });
 
 const creatUrlAvatar = () =>
