@@ -1,5 +1,6 @@
 import {creatListAdvertisement} from './data.js';
-import './creat-markup.js';
+import './card.js';
+
 
 creatListAdvertisement();
 
