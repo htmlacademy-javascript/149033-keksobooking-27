@@ -1,12 +1,6 @@
-const mapFilter = document.querySelector('.map__filters');
+import {setMapFilterOff, setMapFilterOn} from './togglePageStstus.js';
 
-const setMapFilterDisabled = (flagDisabled) => {
-  mapFilter.classList.toggle('.ad-form--disabled');
-  [...mapFilter.children].forEach((item) => {
-    item.disabled = flagDisabled;
-  });
-};
-const setMapFilterOff = () => setMapFilterDisabled(true);
-const setMapFilterOn = () => setMapFilterDisabled(false);
+setMapFilterOn();
+setMapFilterOff();
 
 export {setMapFilterOff, setMapFilterOn};
