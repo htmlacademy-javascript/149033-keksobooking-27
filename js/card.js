@@ -103,19 +103,22 @@ const renderTime = (cardElement, checkin, checkout) => {
   popupTime.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 };
 
-const creatAdvertisement = ({ offer, author }) => {
+const creatAdvertisement = ({
+  offer: { title, address, price, type, rooms, guests, checkin, checkout, features, photos, description },
+  author: { avatar },
+}) => {
   const cardElement = card.cloneNode(true);
-  renderAvatar(cardElement, author.avatar);
-  renderTitle(cardElement, offer.title);
-  renderAddress(cardElement, offer.address);
-  renderPrice(cardElement, offer.price);
-  renderType(cardElement, offer.type);
-  renderCapacity(cardElement, offer.rooms, offer.guests);
-  renderTime(cardElement, offer.checkin, offer.checkout);
+  renderAvatar(cardElement, avatar);
+  renderTitle(cardElement, title);
+  renderAddress(cardElement, address);
+  renderPrice(cardElement, price);
+  renderType(cardElement, type);
+  renderCapacity(cardElement, rooms, guests);
+  renderTime(cardElement, checkin, checkout);
 
-  renderFuture(cardElement, offer.features);
-  renderPhoto(cardElement, offer.photos);
-  renderDiscription(cardElement, offer.description);
+  renderFuture(cardElement, features);
+  renderPhoto(cardElement, photos);
+  renderDiscription(cardElement, description);
   return cardElement;
 };
 
