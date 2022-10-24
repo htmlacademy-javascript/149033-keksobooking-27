@@ -1,6 +1,6 @@
 import {getRandomIntInclusive, getRandomFloat, shuffleRandomLength, getRandomArrayElement} from './util.js';
 
-const LIST_ADVERTISEMENT_LENGTH = 10;
+const LIST_AD_LENGTH = 10;
 const TITLE_OFFER = [
   'Сдаю в аренду',
   'Хорошое жилье',
@@ -46,7 +46,7 @@ const creatLocationData = () => ({
 const creatUrlAvatar = () =>
   `img/avatars/user${String(getRandomIntInclusive(1, 10)).padStart(2, '0')}.png`;
 
-const createAdvertisement = () => {
+const createAd = () => {
   const location = creatLocationData();
   return {
     author: {
@@ -69,9 +69,9 @@ const createAdvertisement = () => {
   };
 };
 
-const creatListAdvertisement = () => Array.from(
-  { length: LIST_ADVERTISEMENT_LENGTH },
-  createAdvertisement
+const creatListAd = () => Array.from(
+  { length: LIST_AD_LENGTH },
+  createAd
 );
 
-export {creatListAdvertisement};
+export {creatListAd};
