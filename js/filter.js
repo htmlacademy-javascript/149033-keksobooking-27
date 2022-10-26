@@ -1,4 +1,4 @@
-import {setMapFilterOff, setMapFilterOn} from './togglePageStstus.js';
+import {setMapFilterOff, setMapFilterOn} from './togglePageStatus.js';
 
 setMapFilterOn();
 setMapFilterOff();

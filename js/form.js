@@ -1,4 +1,4 @@
-import { setAdFormOff, setAdFormOn } from './togglePageStstus.js';
+import { setAdFormOff, setAdFormOn } from './togglePageStatus.js';
 
 const adForm = document.querySelector('.ad-form');
 
@@ -19,10 +19,32 @@ pristine.addValidator(
   true
 );
 
+const type = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
+
+const pricesOfHousing = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
+};
+const setAttributePriceOfType = () => {
+  price.setAttribute('min', pricesOfHousing[type.value]);
+  price.setAttribute('placeholder', pricesOfHousing[type.value]);
+};
+
+setAttributePriceOfType();
+type.addEventListener('change', () => {
+  setAttributePriceOfType();
+  price.value = '';
+});
+
+
 pristine.addValidator(
-  adForm.querySelector('#price'),
-  (value) => (value >= 0) && (value <= 100000),
-  'Введите число от 0 до 100000',
+  price,
+  (value) => (value >= pricesOfHousing[type.value]) && (value <= 100000),
+  () => `Введите число от ${price.getAttribute('min')} до 100000`,
   2,
   true
 );
@@ -36,6 +58,7 @@ const placingGuests = {
   '100': ['0']
 };
 
+
 pristine.addValidator(
   roomNumber,
   (value) => placingGuests[value].includes(capacity.value),
@@ -45,15 +68,28 @@ pristine.addValidator(
 pristine.addValidator(
   capacity,
   (value) => placingGuests[roomNumber.value].includes(value),
-  (value) => `Гостей: ${value}. Комнат: ${roomNumber.value}`
+  (value) => `Комнат: ${roomNumber.value}. Гостей: ${value} `
 );
 
 roomNumber.addEventListener('change', () => {
-  pristine.validate();
+  pristine.validate(roomNumber);
+  pristine.validate(capacity);
 });
 capacity.addEventListener('change', () => {
-  pristine.validate();
+  pristine.validate(roomNumber);
+  pristine.validate(capacity);
 });
+
+const timein = adForm.querySelector('#timein');
+const timeout = adForm.querySelector('#timeout');
+
+timein.addEventListener('change', (evt) => {
+  timeout.value = evt.target.value;
+});
+timeout.addEventListener('change', (evt) => {
+  timein.value = evt.target.value;
+});
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
