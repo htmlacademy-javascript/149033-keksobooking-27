@@ -51,11 +51,9 @@ pristine.addValidator(
 roomNumber.addEventListener('change', () => {
   pristine.validate();
 });
-
 capacity.addEventListener('change', () => {
   pristine.validate();
 });
-
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
