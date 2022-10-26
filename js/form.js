@@ -21,7 +21,7 @@ pristine.addValidator(
 
 pristine.addValidator(
   adForm.querySelector('#price'),
-  (value) => value >= 0 && value <= 100000,
+  (value) => (value >= 0) && (value <= 100000),
   'Введите число от 0 до 100000',
   2,
   true
@@ -29,18 +29,35 @@ pristine.addValidator(
 
 const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
-const roomNumberValue = parseInt(roomNumber.value);
-const capacityF = (value) => {
-  console.log(value);
-  return roomNumberValue >= parseInt(value.match(/[1-3]/))
+const placingGuests = {
+  '1': ['1'],
+  '2': ['1','2'],
+  '3': ['1','2','3'],
+  '100': ['0']
 };
 pristine.addValidator(
-  capacity,
-  capacityF,
-  'Введите правильное поле',
+  roomNumber,
+  (value) => placingGuests[value].includes(capacity.value),
+  (value) => `Комнат: ${value}. Гостей: ${capacity.value}`,
   2,
   true
 );
+
+pristine.addValidator(
+  capacity,
+  (value) => placingGuests[roomNumber.value].includes(value),
+  (value) => `Гостей: ${value}. Комнат: ${roomNumber.value}`,
+  2,
+  true
+);
+
+roomNumber.addEventListener('change', () => {
+  pristine.validate();
+});
+
+capacity.addEventListener('change', () => {
+  pristine.validate();
+});
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
