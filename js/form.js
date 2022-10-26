@@ -64,7 +64,4 @@ adForm.addEventListener('submit', (evt) => {
   pristine.validate();
 });
 
-//setAdFormOn();
-//setAdFormOff();
-
 export { setAdFormOff, setAdFormOn };
