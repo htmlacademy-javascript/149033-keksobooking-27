@@ -35,20 +35,17 @@ const placingGuests = {
   '3': ['1','2','3'],
   '100': ['0']
 };
+
 pristine.addValidator(
   roomNumber,
   (value) => placingGuests[value].includes(capacity.value),
   (value) => `Комнат: ${value}. Гостей: ${capacity.value}`,
-  2,
-  true
 );
 
 pristine.addValidator(
   capacity,
   (value) => placingGuests[roomNumber.value].includes(value),
-  (value) => `Гостей: ${value}. Комнат: ${roomNumber.value}`,
-  2,
-  true
+  (value) => `Гостей: ${value}. Комнат: ${roomNumber.value}`
 );
 
 roomNumber.addEventListener('change', () => {
