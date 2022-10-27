@@ -1,5 +1,7 @@
 import { setAdFormOff, setAdFormOn } from './togglePageStatus.js';
-
+const MIN_TITLE = 30;
+const MAX_TITLE = 100;
+const MAX_PRICE = 100000;
 const adForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine(adForm, {
@@ -11,10 +13,12 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'text-help'
 });
 
+const textErrorTitle = `Ведите от ${MIN_TITLE} до ${MAX_TITLE} символов`;
+const checkingFieldTitle = (value) => value.length >= MIN_TITLE && value.length <= MAX_TITLE;
 pristine.addValidator(
   adForm.querySelector('#title'),
-  (value) => value.length >= 30 && value.length <= 100,
-  'Введите от 30 до 100 символов',
+  checkingFieldTitle,
+  textErrorTitle,
   2,
   true
 );
@@ -23,11 +27,11 @@ const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 
 const pricesOfHousing = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000,
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 const setAttributePriceOfType = () => {
   price.setAttribute('min', pricesOfHousing[type.value]);
@@ -35,16 +39,18 @@ const setAttributePriceOfType = () => {
 };
 
 setAttributePriceOfType();
-type.addEventListener('change', () => {
+const handleChangeType = () => {
   setAttributePriceOfType();
   price.value = '';
-});
+};
+type.addEventListener('change', handleChangeType);
 
-
+const checkingFieldPrice = (value) => (value >= pricesOfHousing[type.value]) && (value <= MAX_PRICE);
+const textErrorForPrice = () => `Введите число от ${price.getAttribute('min')} до ${MAX_PRICE}`;
 pristine.addValidator(
   price,
-  (value) => (value >= pricesOfHousing[type.value]) && (value <= 100000),
-  () => `Введите число от ${price.getAttribute('min')} до 100000`,
+  checkingFieldPrice,
+  textErrorForPrice,
   2,
   true
 );
@@ -58,41 +64,51 @@ const placingGuests = {
   '100': ['0']
 };
 
-
+const checkingFieldRoomNumber = (value) => placingGuests[value].includes(capacity.value);
+const textErrorForRoomNumber = (value) => `Комнат: ${value}. Гостей: ${capacity.value}`;
 pristine.addValidator(
   roomNumber,
-  (value) => placingGuests[value].includes(capacity.value),
-  (value) => `Комнат: ${value}. Гостей: ${capacity.value}`,
+  checkingFieldRoomNumber,
+  textErrorForRoomNumber,
 );
 
+const checkingFieldCapacity = (value) => placingGuests[roomNumber.value].includes(value);
+const textErrorCapacity = (value) => `Комнат: ${roomNumber.value}. Гостей: ${value}`;
 pristine.addValidator(
   capacity,
-  (value) => placingGuests[roomNumber.value].includes(value),
-  (value) => `Комнат: ${roomNumber.value}. Гостей: ${value} `
+  checkingFieldCapacity,
+  textErrorCapacity
 );
 
-roomNumber.addEventListener('change', () => {
+const handleChangeRoomNumber = () => {
   pristine.validate(roomNumber);
   pristine.validate(capacity);
-});
-capacity.addEventListener('change', () => {
+};
+roomNumber.addEventListener('change', handleChangeRoomNumber);
+
+const handleChangeCapacity = () => {
   pristine.validate(roomNumber);
   pristine.validate(capacity);
-});
+};
+capacity.addEventListener('change', handleChangeCapacity);
 
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
 
-timein.addEventListener('change', (evt) => {
+const handleChangeTimein = (evt) => {
   timeout.value = evt.target.value;
-});
-timeout.addEventListener('change', (evt) => {
-  timein.value = evt.target.value;
-});
+};
+timein.addEventListener('change', handleChangeTimein);
 
-adForm.addEventListener('submit', (evt) => {
+const handleChangeTimeout = (evt) => {
+  timein.value = evt.target.value;
+};
+timeout.addEventListener('change', handleChangeTimeout);
+
+const handleSubmintAdform = (evt) => {
   evt.preventDefault();
   pristine.validate();
-});
+};
+adForm.addEventListener('submit', handleSubmintAdform);
 
 export { setAdFormOff, setAdFormOn };
