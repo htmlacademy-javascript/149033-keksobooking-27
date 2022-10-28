@@ -1,10 +1,10 @@
-import { creatListAdvertisement } from './data.js';
+import { creatListAd } from './data.js';
 
 const card = document.querySelector('#card').content.querySelector('.popup');
 
 const mapCanvas = document.querySelector('#map-canvas');
 
-const advertisements = creatListAdvertisement();
+const ads = creatListAd();
 
 const offerTypeInRU = {
   flat: 'Квартира',
@@ -103,7 +103,7 @@ const renderTime = (cardElement, checkin, checkout) => {
   popupTime.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 };
 
-const creatAdvertisement = ({
+const creatAd = ({
   offer: { title, address, price, type, rooms, guests, checkin, checkout, features, photos, description },
   author: { avatar },
 }) => {
@@ -122,4 +122,4 @@ const creatAdvertisement = ({
   return cardElement;
 };
 
-mapCanvas.append(creatAdvertisement(advertisements[0]));
+mapCanvas.append(creatAd(ads[0]));

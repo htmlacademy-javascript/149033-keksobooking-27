@@ -1,5 +1,7 @@
-import {creatListAdvertisement} from './data.js';
+import {creatListAd} from './data.js';
 import './card.js';
-import './form.js';
+import { setAdFormOff, setAdFormOn } from './form.js';
 import './filter.js';
-creatListAdvertisement();
+creatListAd();
+setAdFormOff();
+setAdFormOn();
