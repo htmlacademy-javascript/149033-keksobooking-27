@@ -6,8 +6,8 @@ const adForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
-  errorClass: 'form__element--invalid',
-  successClass: 'form__element--valid',
+  errorClass: 'ad-form__element--invalid',
+  successClass: 'ad-form__element--valid',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
   errorTextClass: 'text-help'
