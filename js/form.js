@@ -26,6 +26,7 @@ pristine.addValidator(
 const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 
+
 const pricesOfHousing = {
   bungalow: 0,
   flat: 1000,
@@ -33,6 +34,23 @@ const pricesOfHousing = {
   house: 5000,
   palace: 10000,
 };
+
+
+const sliderElement = document.querySelector('.ad-form__slider');
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: pricesOfHousing[type.value],
+    max: MAX_PRICE,
+  },
+  start: pricesOfHousing[type.value],
+  step: 1,
+  connect: 'lower',
+});
+sliderElement.noUiSlider.on('update', () => {
+  price.value = sliderElement.noUiSlider.get();
+});
+
 const setAttributePriceOfType = () => {
   price.setAttribute('min', pricesOfHousing[type.value]);
   price.setAttribute('placeholder', pricesOfHousing[type.value]);
@@ -41,7 +59,9 @@ const setAttributePriceOfType = () => {
 setAttributePriceOfType();
 const handleChangeType = () => {
   setAttributePriceOfType();
+  sliderElement.noUiSlider.set(pricesOfHousing[type.value]);
   price.value = '';
+
 };
 type.addEventListener('change', handleChangeType);
 
