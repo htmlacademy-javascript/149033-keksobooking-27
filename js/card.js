@@ -122,4 +122,4 @@ const creatAd = ({
   return cardElement;
 };
 
-mapCanvas.append(creatAd(ads[0]));
+export {creatAd};
