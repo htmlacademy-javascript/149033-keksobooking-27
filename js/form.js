@@ -1,4 +1,4 @@
-import { setAdFormOff, setAdFormOn } from './togglePageStatus.js';
+import { setAdFormOff, setAdFormOn } from './toggle-page-status.js';
 const MIN_TITLE = 30;
 const MAX_TITLE = 100;
 const MAX_PRICE = 100000;
