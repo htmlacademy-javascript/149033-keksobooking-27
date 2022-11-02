@@ -19,5 +19,12 @@ const setAdFormOff = () => setAdFormDisabled(true);
 const setAdFormOn = () => setAdFormDisabled(false);
 const setMapFilterOff = () => setMapFilterDisabled(true);
 const setMapFilterOn = () => setMapFilterDisabled(false);
-
-export {setAdFormOff, setAdFormOn, setMapFilterOff, setMapFilterOn};
+const setPageOn = () => {
+  setAdFormOn();
+  setMapFilterOn();
+};
+const setPageOff = () => {
+  setAdFormOff();
+  setMapFilterOff();
+};
+export {setPageOn, setPageOff,setAdFormOff, setAdFormOn, setMapFilterOff, setMapFilterOn};

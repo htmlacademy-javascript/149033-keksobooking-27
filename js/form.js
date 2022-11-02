@@ -131,4 +131,7 @@ const handleSubmintAdform = (evt) => {
 };
 adForm.addEventListener('submit', handleSubmintAdform);
 
+const setAdrressReadonly = () => document.querySelector('#address').setAttribute('readonly', 'readonly');
+setAdrressReadonly();
+
 export { setAdFormOff, setAdFormOn };

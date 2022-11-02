@@ -1,8 +1,9 @@
 import {creatListAd} from './data.js';
-import './card.js';
-import { setAdFormOff, setAdFormOn } from './form.js';
+import './form.js';
+import {setPageOff} from './toggle-page-status.js';
 import './filter.js';
-import './map.js';
-creatListAd();
-setAdFormOff();
-setAdFormOn();
+import {creatMap} from './map.js';
+
+setPageOff();
+creatMap(creatListAd());
+
