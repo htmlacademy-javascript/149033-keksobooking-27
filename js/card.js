@@ -1,10 +1,4 @@
-import { creatListAd } from './data.js';
-
 const card = document.querySelector('#card').content.querySelector('.popup');
-
-const mapCanvas = document.querySelector('#map-canvas');
-
-const ads = creatListAd();
 
 const offerTypeInRU = {
   flat: 'Квартира',
@@ -122,4 +116,4 @@ const creatAd = ({
   return cardElement;
 };
 
-mapCanvas.append(creatAd(ads[0]));
+export {creatAd};
