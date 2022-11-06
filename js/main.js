@@ -1,9 +1,9 @@
-import {creatListAd} from './data.js';
+//import {creatListAd} from './data.js';
 import './form.js';
 import {setPageOff} from './toggle-page-status.js';
 import './filter.js';
-import {creatMap} from './map.js';
-
+import {creatMainMarkerOnMap, creatMarkersOnMap} from './map.js';
+import {getListAd} from './dataRequest.js';
 setPageOff();
-creatMap(creatListAd());
-
+creatMainMarkerOnMap();
+getListAd(creatMarkersOnMap);

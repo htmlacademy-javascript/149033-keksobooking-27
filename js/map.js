@@ -52,11 +52,10 @@ const creatMarkers = (currentMap, mainIcon, ads) => {
   });
 };
 
-const creatMap = (ads) => {
-  const latLng = map.getCenter();
-  creatMainMarker(map, latLng , mainPinIcon);
-  creatMarkers(map, pinIcon, ads);
-};
+const latLng = map.getCenter();
+const creatMainMarkerOnMap = () => creatMainMarker(map, latLng , mainPinIcon);
+const creatMarkersOnMap = (ads) => creatMarkers(map, pinIcon, ads);
 
-export {creatMap};
+
+export {creatMainMarkerOnMap, creatMarkersOnMap};
 
