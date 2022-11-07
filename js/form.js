@@ -1,5 +1,3 @@
-import { sendAdForm } from './dataRequest.js';
-import { setAdFormOff, setAdFormOn } from './toggle-page-status.js';
 const MIN_TITLE = 30;
 const MAX_TITLE = 100;
 const MAX_PRICE = 100000;
@@ -129,13 +127,10 @@ timeout.addEventListener('change', handleChangeTimeout);
 const handleSubmintAdform = (evt) => {
   evt.preventDefault();
   pristine.validate();
-  sendAdForm(
-    new FormData(evt.target),
-  );
 };
 adForm.addEventListener('submit', handleSubmintAdform);
 
 const setAdrressReadonly = () => document.querySelector('#address').setAttribute('readonly', 'readonly');
 setAdrressReadonly();
 
-export { setAdFormOff, setAdFormOn };
+
