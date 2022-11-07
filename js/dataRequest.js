@@ -33,4 +33,34 @@ const getListAd = (cbCreatMap) =>
       errorMessageMarkers(err);
     });
 
-export { getListAd };
+// Добавьте обработчик отправки формы, если ещё этого не сделали, который бы отменял действие формы по умолчанию и отправлял данные формы посредством fetch на сервер.
+// Данные для отправки
+const sendAdFormOK = () => console.log('sendAdFormOK');
+const sendAdFormFail = () => console.log('onFail');
+
+const URL_SEND = 'https://27.javascript.pages.academy/keksobooking';
+const sendAdForm = (body) => {
+  fetch(
+    URL_SEND,
+    {
+      method: 'POST',
+      body,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        return sendAdFormOK();
+      }
+      sendAdFormFail();
+    })
+    .catch(sendAdFormFail);
+};
+
+    // Реализуйте возвращение формы в исходное состояние при успешной отправке, а также показ сообщения пользователю.
+
+    // Если при отправке данных произошла ошибка запроса, покажите соответствующее сообщение.
+
+    // Похожим образом обработайте нажатие на кнопку сброса.
+
+
+export { getListAd, sendAdForm };
