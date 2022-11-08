@@ -1,10 +1,13 @@
 //import {creatListAd} from './data.js';
-import {getListAd} from './dataRequest.js';
-import './form.js';
+import {initForm, onSubmitAdForm} from './form.js';
+import {getListAd, sendAdForm} from './dataRequest.js';
 import {setPageOff} from './toggle-page-status.js';
 import './filter.js';
-import {creatMainMarkerOnMap, creatMarkersOnMap} from './map.js';
+import {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers} from './map.js';
 
+initForm();
 setPageOff();
 creatMainMarkerOnMap();
-getListAd(creatMarkersOnMap);
+getListAd(creatMarkersOnMap,errorMessageMarkers);
+
+onSubmitAdForm(sendAdForm);

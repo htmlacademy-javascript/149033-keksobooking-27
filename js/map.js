@@ -19,13 +19,32 @@ const pinIcon = L.icon({
   iconSize: PIN_WIDTH_LENGTH,
   iconAnchor: PIN_ANCHOR_XY,
 });
+const STYLE_ERROR = {
+  backgroundColor: 'white',
+  color: 'red',
+  position: 'absolute',
+  width: '100%',
+  textAlign: 'center',
+  zIndex: '999',
+};
+
+
+const errorMessageMarkers = (err) => {
+  const mapCanvas = document.querySelector('.map__canvas');
+  const div = document.createElement('div');
+  Object.assign(div.style, STYLE_ERROR);
+  div.textContent = `${err}`;
+  const toggleError = () => div.classList.toggle('hidden');
+  setInterval(toggleError, 2000);
+  mapCanvas.append(div);
+};
 
 const creatMainMarker = (currentMap, currentLatLng, icon) => {
   const address = document.querySelector('#address');
   address.setAttribute('readonly', 'readonly');
   const handlerMarkerOnMoveend = (evt) => {
     const {lng, lat} = evt.target.getLatLng();
-    address.value = `${lng.toFixed(5)}, ${lat.toFixed(5)}`;
+    address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
   };
   const mainMarker = L.marker(
     currentLatLng,
@@ -34,6 +53,8 @@ const creatMainMarker = (currentMap, currentLatLng, icon) => {
       icon: icon,
     },
   );
+  document.querySelector('#address').value = Object.values(currentLatLng);
+
   mainMarker.on('moveend', handlerMarkerOnMoveend).addTo(currentMap);
 };
 
@@ -57,5 +78,5 @@ const creatMainMarkerOnMap = () => creatMainMarker(map, latLng , mainPinIcon);
 const creatMarkersOnMap = (ads) => creatMarkers(map, pinIcon, ads);
 
 
-export {creatMainMarkerOnMap, creatMarkersOnMap};
+export {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers};
 

@@ -1,36 +1,17 @@
+const URL_SEND = 'https://27.javascript.pages.academy/keksobooking';
+const URL_GET_DATA = 'https://27.javascript.pages.academy/keksobooking/data';
 
+const getListAd = (creatMap, errorMessageMarkers) =>
 
-const URL_DATA = 'https://27.javascript.pages.academy/keksobooking/data';
-const STYLE_ERROR = {
-  backgroundColor: 'white',
-  color: 'red',
-  position: 'absolute',
-  width: '100%',
-  textAlign: 'center',
-  zIndex: '999',
-};
-
-
-const errorMessageMarkers = (err) => {
-  const mapCanvas = document.querySelector('.map__canvas');
-  const div = document.createElement('div');
-  Object.assign(div.style, STYLE_ERROR);
-  div.textContent = `${err}`;
-  const toggleError = () => div.classList.toggle('hidden');
-  setInterval(toggleError, 2000);
-  mapCanvas.append(div);
-};
-const getListAd = (cbCreatMap) =>
-
-  fetch(URL_DATA)
+  fetch(URL_GET_DATA)
     .then((response) => {
       if (response.ok) {
         return response;
       }
-      throw new Error(`${response.status}. Ошибка получения обявлений по ссылке ${URL_DATA}`);
+      throw new Error(`${response.status}. Ошибка получения обявлений по ссылке ${URL_GET_DATA}`);
     })
     .then((response) => response.json())
-    .then((data) => cbCreatMap(data))
+    .then((data) => creatMap(data))
     .catch((err) => {
       errorMessageMarkers(err);
     });
@@ -39,7 +20,6 @@ const getListAd = (cbCreatMap) =>
 
 const adForm = document.querySelector('.ad-form');
 
-const URL_SEND = 'https://27.javascript.pages.academy/keksobooking';
 const sendAdForm = (body) => {
   fetch(
     URL_SEND,
@@ -50,25 +30,28 @@ const sendAdForm = (body) => {
   )
     .then((response) => {
       if (response.ok) {
-        return sendAdFormOK();
+        return onSuccess();
       }
       sendAdFormFail();
     });
-//.catch(sendAdFormFail);
 };
 
-adForm.addEventListener('submit', (evt) => {
-  sendAdForm(
-    new FormData(evt.target),
-  );
-});
 
 // Реализуйте возвращение формы в исходное состояние при успешной отправке, а также показ сообщения пользователю.
-const sendAdFormOK = () => {
+const onSuccess = () => {
   adForm.reset();
   document.querySelector('.ad-form__slider').noUiSlider.reset();
-  const success = document.querySelector('#success');
-  
+  const successTmpl = document.querySelector('#success').content;
+  const success = successTmpl.cloneNode(true);
+  document.body.append(success);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.keyCode === 27 || evt.key === 'Escape') {
+    //ваша функция закрытия окна
+      console.log(success);
+      success.remove();
+      console.log('sendAdFormOK');
+    }
+  });
   console.log('sendAdFormOK');
 
 };
