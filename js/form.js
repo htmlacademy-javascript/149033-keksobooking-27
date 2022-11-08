@@ -48,6 +48,7 @@ noUiSlider.create(sliderElement, {
 });
 sliderElement.noUiSlider.on('update', () => {
   price.value = sliderElement.noUiSlider.get();
+  pristine.validate(price);
 });
 
 const setAttributePriceOfType = () => {
@@ -65,7 +66,7 @@ const handleChangeType = () => {
 type.addEventListener('change', handleChangeType);
 
 const checkingFieldPrice = (value) => (value >= pricesOfHousing[type.value]) && (value <= MAX_PRICE);
-const textErrorForPrice = () => `Введите число от ${price.getAttribute('min')} до ${MAX_PRICE}`;
+const textErrorForPrice = () => `Цена от ${price.getAttribute('min')} до ${MAX_PRICE}`;
 pristine.addValidator(
   price,
   checkingFieldPrice,

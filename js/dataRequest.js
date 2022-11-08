@@ -65,16 +65,12 @@ adForm.addEventListener('submit', (evt) => {
 
 // Реализуйте возвращение формы в исходное состояние при успешной отправке, а также показ сообщения пользователю.
 const sendAdFormOK = () => {
-  adForm.querySelector('#title').value = '';
-  adForm.querySelector('#type').value = 'flat';
-  adForm.querySelector('#price').value = 0;
-  adForm.querySelector('#room_number').value = 1;
-  adForm.querySelector('#capacity').value = 3;
-  adForm.querySelector('#description').value = '';
-  adForm.querySelector('#address').value = '';
-
-
+  adForm.reset();
+  document.querySelector('.ad-form__slider').noUiSlider.reset();
+  const success = document.querySelector('#success');
+  
   console.log('sendAdFormOK');
+
 };
 
     // Если при отправке данных произошла ошибка запроса, покажите соответствующее сообщение.
