@@ -131,22 +131,67 @@ const initForm = () => {
   setAdrressReadonly();
 };
 
-const onSubmitAdForm = (cbSendAdForm, latLng) => {
-  adForm.addEventListener('submit', (evt) => {
-    cbSendAdForm(
-      new FormData(evt.target),
-      latLng,
-    );
+const onSuccess = (latLang) => {
+  adForm.reset();
+  adForm.querySelector('#address').value = Object.values(latLang);
+  const slider = document.querySelector('.ad-form__slider');
+  slider.noUiSlider.reset();
+  const successTmpl = document.querySelector('#success').content.querySelector('.success');
+  const success = successTmpl.cloneNode(true);
+  const body = document.querySelector('body');
+  body.append(success);
+  const handleBodyKeydown = (evt) => {
+    if (evt.key === 'Esc' || evt.key === 'Escape') {
+      success.classList.add('hidden');
+      document.removeEventListener('keydown', handleBodyKeydown);
+    }
+  };
+  document.addEventListener('keydown', handleBodyKeydown);
+
+  success.addEventListener('click', () => {
+    success.classList.add('hidden');
+  });
+
+};
+
+const sendAdFormFail = () => {
+  const errorTmpl = document.querySelector('#error').content.querySelector('.error');
+  const error = errorTmpl.cloneNode(true);
+  const body = document.querySelector('body');
+  body.append(error);
+  const handleBodyKeydown = (evt) => {
+    if (evt.key === 'Esc' || evt.key === 'Escape') {
+      error.classList.add('hidden');
+      document.removeEventListener('keydown', handleBodyKeydown);
+    }
+  };
+  document.addEventListener('keydown', handleBodyKeydown);
+  const errorBtn = error.querySelector('.error__button');
+  errorBtn.addEventListener('click', () => {
+    error.classList.add('hidden');
   });
 };
 
-const onResetAdForm = (latLng) => {
+const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
+  adForm.addEventListener('submit', (evt) => {
+    sendAdForm(
+      new FormData(evt.target),
+      latLng,
+      onSuccess,
+      sendAdFormFail
+    );
+    resetMainPinMarker();
+  });
+};
+
+const onResetAdForm = (latLng, resetMainPinMarker) => {
   const reset = adForm.querySelector('.ad-form__reset');
   reset.addEventListener('click', (evt) => {
     evt.preventDefault();
     adForm.reset();
     address.value = Object.values(latLng);
     sliderElement.noUiSlider.reset();
+    resetMainPinMarker();
   });
 };
 export{ initForm, onSubmitAdForm, onResetAdForm};
