@@ -1,21 +1,50 @@
 const adForm = document.querySelector('.ad-form');
+const MIN_TITLE = 30;
+const MAX_TITLE = 100;
+const MAX_PRICE = 100000;
+const textErrorTitle = `Ведите от ${MIN_TITLE} до ${MAX_TITLE} символов`;
+const checkingFieldTitle = (value) => value.length >= MIN_TITLE && value.length <= MAX_TITLE;
+const pristine = new Pristine(adForm, {
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form__element--invalid',
+  successClass: 'ad-form__element--valid',
+  errorTextParent: 'ad-form__element',
+  errorTextTag: 'span',
+  errorTextClass: 'text-help'
+});
+const type = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
+const sliderElement = document.querySelector('.ad-form__slider');
+const address = document.querySelector('#address');
+
+const pricesOfHousing = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+noUiSlider.create(sliderElement, {
+  range: {
+    min: pricesOfHousing[type.value],
+    max: MAX_PRICE,
+  },
+  start: pricesOfHousing[type.value],
+  step: 1,
+  connect: 'lower',
+});
+const setAttributePriceOfType = () => {
+  price.setAttribute('min', pricesOfHousing[type.value]);
+  price.setAttribute('placeholder', pricesOfHousing[type.value]);
+};
+setAttributePriceOfType();
+const handleChangeType = () => {
+  setAttributePriceOfType();
+  sliderElement.noUiSlider.set(pricesOfHousing[type.value]);
+  price.value = '';
+};
 
 const initForm = () => {
-  const MIN_TITLE = 30;
-  const MAX_TITLE = 100;
-  const MAX_PRICE = 100000;
-
-  const pristine = new Pristine(adForm, {
-    classTo: 'ad-form__element',
-    errorClass: 'ad-form__element--invalid',
-    successClass: 'ad-form__element--valid',
-    errorTextParent: 'ad-form__element',
-    errorTextTag: 'span',
-    errorTextClass: 'text-help'
-  });
-
-  const textErrorTitle = `Ведите от ${MIN_TITLE} до ${MAX_TITLE} символов`;
-  const checkingFieldTitle = (value) => value.length >= MIN_TITLE && value.length <= MAX_TITLE;
   pristine.addValidator(
     adForm.querySelector('#title'),
     checkingFieldTitle,
@@ -24,47 +53,12 @@ const initForm = () => {
     true
   );
 
-  const type = adForm.querySelector('#type');
-  const price = adForm.querySelector('#price');
-
-
-  const pricesOfHousing = {
-    bungalow: 0,
-    flat: 1000,
-    hotel: 3000,
-    house: 5000,
-    palace: 10000,
-  };
-
-
-  const sliderElement = document.querySelector('.ad-form__slider');
-
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: pricesOfHousing[type.value],
-      max: MAX_PRICE,
-    },
-    start: pricesOfHousing[type.value],
-    step: 1,
-    connect: 'lower',
-  });
   sliderElement.noUiSlider.on('update', () => {
     price.value = sliderElement.noUiSlider.get();
     pristine.validate(price);
   });
 
-  const setAttributePriceOfType = () => {
-    price.setAttribute('min', pricesOfHousing[type.value]);
-    price.setAttribute('placeholder', pricesOfHousing[type.value]);
-  };
 
-  setAttributePriceOfType();
-  const handleChangeType = () => {
-    setAttributePriceOfType();
-    sliderElement.noUiSlider.set(pricesOfHousing[type.value]);
-    price.value = '';
-
-  };
   type.addEventListener('change', handleChangeType);
 
   const checkingFieldPrice = (value) => (value >= pricesOfHousing[type.value]) && (value <= MAX_PRICE);
@@ -133,16 +127,26 @@ const initForm = () => {
   };
   adForm.addEventListener('submit', handleSubmintAdform);
 
-  const setAdrressReadonly = () => document.querySelector('#address').setAttribute('readonly', 'readonly');
+  const setAdrressReadonly = () => address.setAttribute('readonly', 'readonly');
   setAdrressReadonly();
 };
 
-const onSubmitAdForm = (cbSendAdForm) => {
+const onSubmitAdForm = (cbSendAdForm, latLng) => {
   adForm.addEventListener('submit', (evt) => {
     cbSendAdForm(
       new FormData(evt.target),
+      latLng,
     );
   });
 };
 
-export{ initForm, onSubmitAdForm};
+const onResetAdForm = (latLng) => {
+  const reset = adForm.querySelector('.ad-form__reset');
+  reset.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    adForm.reset();
+    address.value = Object.values(latLng);
+    sliderElement.noUiSlider.reset();
+  });
+};
+export{ initForm, onSubmitAdForm, onResetAdForm};

@@ -28,7 +28,6 @@ const STYLE_ERROR = {
   zIndex: '999',
 };
 
-
 const errorMessageMarkers = (err) => {
   const mapCanvas = document.querySelector('.map__canvas');
   const div = document.createElement('div');
@@ -38,7 +37,7 @@ const errorMessageMarkers = (err) => {
   setInterval(toggleError, 2000);
   mapCanvas.append(div);
 };
-
+let mainMarker;
 const creatMainMarker = (currentMap, currentLatLng, icon) => {
   const address = document.querySelector('#address');
   address.setAttribute('readonly', 'readonly');
@@ -46,7 +45,7 @@ const creatMainMarker = (currentMap, currentLatLng, icon) => {
     const {lng, lat} = evt.target.getLatLng();
     address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
   };
-  const mainMarker = L.marker(
+  mainMarker = L.marker(
     currentLatLng,
     {
       draggable: true,
@@ -56,7 +55,9 @@ const creatMainMarker = (currentMap, currentLatLng, icon) => {
   document.querySelector('#address').value = Object.values(currentLatLng);
 
   mainMarker.on('moveend', handlerMarkerOnMoveend).addTo(currentMap);
+
 };
+
 
 const creatMarkers = (currentMap, mainIcon, ads) => {
   const markerGroup = L.layerGroup().addTo(currentMap);
@@ -74,9 +75,9 @@ const creatMarkers = (currentMap, mainIcon, ads) => {
 };
 
 const latLng = map.getCenter();
+const getCenterMap = () => map.getCenter();
 const creatMainMarkerOnMap = () => creatMainMarker(map, latLng , mainPinIcon);
 const creatMarkersOnMap = (ads) => creatMarkers(map, pinIcon, ads);
 
-
-export {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers};
+export {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers, getCenterMap};
 
