@@ -137,22 +137,28 @@ const resetSliderPrice = () => {
   slider.noUiSlider.reset();
 };
 
-const showSuccess = () => {
-  const successTmpl = document.querySelector('#success').content.querySelector('.success');
-  const success = successTmpl.cloneNode(true);
-  body.append(success);
+const hiddenElementClick = (element) => element.addEventListener('click', (evt) => {
+  if(evt.target.matches('.success') || evt.target.matches('.error') || evt.target.closest('.error') ) {
+    element.classList.add('hidden');
+  }
+});
 
+const hiddenElementEsc = (element) => {
   const handleBodyKeydown = (evt) => {
     if (evt.key === 'Esc' || evt.key === 'Escape') {
-      success.classList.add('hidden');
+      element.classList.add('hidden');
       document.removeEventListener('keydown', handleBodyKeydown);
     }
   };
   document.addEventListener('keydown', handleBodyKeydown);
+};
 
-  success.addEventListener('click', () => {
-    success.classList.add('hidden');
-  });
+const showSuccess = () => {
+  const successTmpl = document.querySelector('#success').content.querySelector('.success');
+  const success = successTmpl.cloneNode(true);
+  body.append(success);
+  hiddenElementEsc(success);
+  hiddenElementClick(success);
 };
 
 const onSuccess = (latLang) => {
@@ -166,19 +172,8 @@ const showFail = () => {
   const errorTmpl = document.querySelector('#error').content.querySelector('.error');
   const error = errorTmpl.cloneNode(true);
   body.append(error);
-
-  const handleBodyKeydown = (evt) => {
-    if (evt.key === 'Esc' || evt.key === 'Escape') {
-      error.classList.add('hidden');
-      document.removeEventListener('keydown', handleBodyKeydown);
-    }
-  };
-  document.addEventListener('keydown', handleBodyKeydown);
-
-  const errorBtn = error.querySelector('.error__button');
-  errorBtn.addEventListener('click', () => {
-    error.classList.add('hidden');
-  });
+  hiddenElementEsc(error);
+  hiddenElementClick(error);
 };
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
