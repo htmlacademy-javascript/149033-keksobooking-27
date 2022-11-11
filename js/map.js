@@ -19,19 +19,18 @@ const pinIcon = L.icon({
   iconSize: PIN_WIDTH_LENGTH,
   iconAnchor: PIN_ANCHOR_XY,
 });
-const styleError = {
-  backgroundColor: 'white',
-  color: 'red',
-  position: 'absolute',
-  width: '100%',
-  textAlign: 'center',
-  zIndex: '999',
-};
+const styleError = `
+  background-color: white;
+  color: red;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 999 `;
 
 const errorMessageMarkers = (err) => {
   const mapCanvas = document.querySelector('.map__canvas');
   const div = document.createElement('div');
-  Object.assign(div.style, styleError);
+  div.style.cssText = styleError;
   div.textContent = `${err}`;
   const toggleError = () => div.classList.toggle('hidden');
   setInterval(toggleError, 2000);
