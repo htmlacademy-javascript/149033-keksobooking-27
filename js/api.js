@@ -1,23 +1,22 @@
-const URL_SEND = 'https://27.javascript.pages.academy/keksobooking';
-const URL_GET_DATA = 'https://27.javascript.pages.academy/keksobooking/data';
+const MAIN_URL = 'https://27.javascript.pages.academy/keksobooking';
 
-const getListAd = (creatMap, errorMessageMarkers) =>
-  fetch(URL_GET_DATA)
+const getListAd = (onSuccess, onFail) =>
+  fetch(`${MAIN_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response;
       }
-      throw new Error(`${response.status}. Ошибка получения обявлений по ссылке ${URL_GET_DATA}`);
+      throw new Error(`${response.status}. Ошибка получения обявлений по ссылке ${MAIN_URL}/data`);
     })
     .then((response) => response.json())
-    .then((data) => creatMap(data))
+    .then((data) => onSuccess(data))
     .catch((err) => {
-      errorMessageMarkers(err);
+      onFail(err);
     });
 
-const sendAdForm = (body, latLang, onSuccess, sendAdFormFail) => {
+const sendAdForm = (body, latLang, onSuccess, onFail) => {
   fetch(
-    URL_SEND,
+    MAIN_URL,
     {
       method: 'POST',
       body,
@@ -27,7 +26,7 @@ const sendAdForm = (body, latLang, onSuccess, sendAdFormFail) => {
       if (response.ok) {
         return onSuccess(latLang);
       }
-      sendAdFormFail(latLang);
+      onFail(latLang);
     });
 };
 

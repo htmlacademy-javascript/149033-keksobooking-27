@@ -16,6 +16,7 @@ const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const sliderElement = document.querySelector('.ad-form__slider');
 const address = document.querySelector('#address');
+const body = document.querySelector('body');
 
 const pricesOfHousing = {
   bungalow: 0,
@@ -131,15 +132,16 @@ const initForm = () => {
   setAdrressReadonly();
 };
 
-const onSuccess = (latLang) => {
-  adForm.reset();
-  adForm.querySelector('#address').value = Object.values(latLang);
+const resetSliderPrice = () => {
   const slider = document.querySelector('.ad-form__slider');
   slider.noUiSlider.reset();
+};
+
+const showSuccess = () => {
   const successTmpl = document.querySelector('#success').content.querySelector('.success');
   const success = successTmpl.cloneNode(true);
-  const body = document.querySelector('body');
   body.append(success);
+
   const handleBodyKeydown = (evt) => {
     if (evt.key === 'Esc' || evt.key === 'Escape') {
       success.classList.add('hidden');
@@ -151,14 +153,20 @@ const onSuccess = (latLang) => {
   success.addEventListener('click', () => {
     success.classList.add('hidden');
   });
-
 };
 
-const sendAdFormFail = () => {
+const onSuccess = (latLang) => {
+  adForm.reset();
+  address.value = Object.values(latLang);
+  resetSliderPrice();
+  showSuccess();
+};
+
+const showFail = () => {
   const errorTmpl = document.querySelector('#error').content.querySelector('.error');
   const error = errorTmpl.cloneNode(true);
-  const body = document.querySelector('body');
   body.append(error);
+
   const handleBodyKeydown = (evt) => {
     if (evt.key === 'Esc' || evt.key === 'Escape') {
       error.classList.add('hidden');
@@ -166,6 +174,7 @@ const sendAdFormFail = () => {
     }
   };
   document.addEventListener('keydown', handleBodyKeydown);
+
   const errorBtn = error.querySelector('.error__button');
   errorBtn.addEventListener('click', () => {
     error.classList.add('hidden');
@@ -174,11 +183,14 @@ const sendAdFormFail = () => {
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
   adForm.addEventListener('submit', (evt) => {
+    if(!pristine.validate()) {
+      return showFail();
+    }
     sendAdForm(
       new FormData(evt.target),
       latLng,
       onSuccess,
-      sendAdFormFail
+      showFail
     );
     resetMainPinMarker();
   });

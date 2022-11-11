@@ -19,7 +19,7 @@ const pinIcon = L.icon({
   iconSize: PIN_WIDTH_LENGTH,
   iconAnchor: PIN_ANCHOR_XY,
 });
-const STYLE_ERROR = {
+const styleError = {
   backgroundColor: 'white',
   color: 'red',
   position: 'absolute',
@@ -31,7 +31,7 @@ const STYLE_ERROR = {
 const errorMessageMarkers = (err) => {
   const mapCanvas = document.querySelector('.map__canvas');
   const div = document.createElement('div');
-  Object.assign(div.style, STYLE_ERROR);
+  Object.assign(div.style, styleError);
   div.textContent = `${err}`;
   const toggleError = () => div.classList.toggle('hidden');
   setInterval(toggleError, 2000);
