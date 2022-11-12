@@ -138,7 +138,7 @@ const resetSliderPrice = () => {
 };
 
 const hiddenElementClick = (element) => element.addEventListener('click', (evt) => {
-  if(evt.target.matches('.success') || evt.target.matches('.error') || evt.target.closest('.error') ) {
+  if(evt.currentTarget.matches('.success') || evt.currentTarget.matches('.error') ) {
     element.classList.add('hidden');
   }
 });

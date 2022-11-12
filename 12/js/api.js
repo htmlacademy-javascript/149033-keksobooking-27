@@ -26,7 +26,10 @@ const sendAdForm = (body, latLang, onSuccess, onFail) => {
       if (response.ok) {
         return onSuccess(latLang);
       }
-      onFail(latLang);
+      onFail();
+    })
+    .catch(() => {
+      onFail();
     });
 };
 
