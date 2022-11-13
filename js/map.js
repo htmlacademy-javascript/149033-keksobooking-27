@@ -1,6 +1,7 @@
 import {creatAd} from './card.js';
 import {initMap} from './init-map.js';
-
+import {getFilteredAds} from './filter.js';
+import {debounce} from './util.js';
 const MAIN_PIN_WIDTH_LENGTH = [52, 52];
 const MAIN_PIN_ANCHOR_XY = [26, 52];
 const PIN_WIDTH_LENGTH = [40, 40];
@@ -53,9 +54,9 @@ const creatMainMarker = (currentMap, currentLatLng, icon) => {
   return mainMarker;
 };
 
-
+let markerGroup;
 const creatMarkers = (currentMap, mainIcon, ads) => {
-  const markerGroup = L.layerGroup().addTo(currentMap);
+  markerGroup = L.layerGroup().addTo(currentMap);
   const creatMarker = (ad) => {
     L.marker(
       ad.location,
@@ -74,8 +75,18 @@ const latLng = map.getCenter();
 const zoom = map.STARING_ZOOM;
 const getCenterMap = () => map.getCenter();
 const creatMainMarkerOnMap = () => creatMainMarker(map, latLng , mainPinIcon);
-const creatMarkersOnMap = (ads) => creatMarkers(map, pinIcon, ads);
+const removeMarkerGroup = () => map.removeLayer(markerGroup);
+const filterElement = document.querySelector('.map__filters');
 
+const setFilteredAdsOnMap = (ads) => {
+  removeMarkerGroup();
+  creatMarkers(map, pinIcon, getFilteredAds(ads));
+};
+
+const creatMarkersOnMap = (ads) => {
+  creatMarkers(map, pinIcon, getFilteredAds(ads));
+  filterElement.addEventListener('change', debounce( () => setFilteredAdsOnMap(ads) ));
+};
 
 const mainMarkerCurrent = creatMainMarker(map, latLng , mainPinIcon);
 mainMarkerCurrent.addTo(map);
@@ -88,7 +99,6 @@ const resetMainPinMarker = () => {
   map.closePopup();
   map.setView(new L.LatLng(latLng.lat, latLng.lng), zoom);
   mainMarkerCurrent.setLatLng(L.latLng(latLng));
-
 };
 
 export {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers, getCenterMap, resetMainPinMarker};

@@ -29,5 +29,12 @@ const shuffle = (array) => {
 const shuffleRandomLength = (array) => shuffle(array).slice( getRandomIntInclusive(0, array.length - 1) );
 
 const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
 
-export {getRandomIntInclusive, getRandomFloat, shuffleRandomLength, getRandomArrayElement};
+export {getRandomIntInclusive, getRandomFloat, shuffleRandomLength, getRandomArrayElement, debounce};
