@@ -1,4 +1,11 @@
+import { isVildTypeImg } from './valid-arguments.js';
 const adForm = document.querySelector('.ad-form');
+const fileAvatar = adForm.querySelector('#avatar');
+const previewAvatar = adForm.querySelector('.ad-form-header__preview').firstElementChild;
+const uploadImg = adForm.querySelector('#images');
+const photoAdForm = adForm.querySelector('.ad-form__photo');
+
+const DEFAULT_PREVIEW = 'img/muffin-grey.svg';
 const MIN_TITLE = 30;
 const MAX_TITLE = 100;
 const MAX_PRICE = 100000;
@@ -25,6 +32,34 @@ const pricesOfHousing = {
   house: 5000,
   palace: 10000,
 };
+
+const handleChangeAvatar = () => {
+  const file = fileAvatar.files[0];
+  const fileName = file.name.toLowerCase();
+
+  if (file && isVildTypeImg(fileName)) {
+    previewAvatar.src = URL.createObjectURL(file);
+  }
+};
+fileAvatar.addEventListener('change', handleChangeAvatar);
+
+
+const handleChangeImgAd = () => {
+  const file = uploadImg.files[0];
+  const fileName = file.name.toLowerCase();
+
+  if (file && isVildTypeImg(fileName)) {
+    photoAdForm.innerHTML = '';
+    const img = document.createElement('img');
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    photoAdForm.append(img);
+
+    img.src = URL.createObjectURL(file);
+  }
+};
+uploadImg.addEventListener('change', handleChangeImgAd);
+
 noUiSlider.create(sliderElement, {
   range: {
     min: pricesOfHousing[type.value],
@@ -160,9 +195,14 @@ const showSuccess = () => {
   hiddenElementEsc(success);
   hiddenElementClick(success);
 };
-
-const onSuccess = (latLang) => {
+const resetAdForm = () => {
   adForm.reset();
+  previewAvatar.src = DEFAULT_PREVIEW;
+  photoAdForm.innerHTML = '';
+  pristine.reset();
+};
+const onSuccess = (latLang) => {
+  resetAdForm();
   address.value = Object.values(latLang);
   resetSliderPrice();
   showSuccess();
@@ -178,24 +218,23 @@ const showFail = () => {
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
   adForm.addEventListener('submit', (evt) => {
-    if(!pristine.validate()) {
-      return showFail();
+    if(pristine.validate()) {
+      sendAdForm(
+        new FormData(evt.target),
+        latLng,
+        onSuccess,
+        showFail
+      );
+      resetMainPinMarker();
     }
-    sendAdForm(
-      new FormData(evt.target),
-      latLng,
-      onSuccess,
-      showFail
-    );
-    resetMainPinMarker();
   });
 };
 
 const onResetAdForm = (latLng, resetMainPinMarker) => {
-  const reset = adForm.querySelector('.ad-form__reset');
-  reset.addEventListener('click', (evt) => {
+  const buttonReset = adForm.querySelector('.ad-form__reset');
+  buttonReset.addEventListener('click', (evt) => {
     evt.preventDefault();
-    adForm.reset();
+    resetAdForm();
     address.value = Object.values(latLng);
     sliderElement.noUiSlider.reset();
     resetMainPinMarker();
