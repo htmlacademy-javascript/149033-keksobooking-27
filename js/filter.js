@@ -1,4 +1,3 @@
-import {setMapFilterOff, setMapFilterOn} from './toggle-page-status.js';
 const LIMIT_ADS = 10;
 const LOW_PRICE = 10000;
 const HIGH_PRICE = 50000;
@@ -35,15 +34,13 @@ const isFeaturesSelected = (ad, features) => {
 };
 
 
-setMapFilterOn();
-setMapFilterOff();
 const getFilteredAds = (ads) => {
   const type = housingTypeSelect.value;
   const price = housingPriceSelect.value;
   const rooms = housingRoomsSelect.value;
   const guests = housingGuestsSelect.value;
   const housingFeatures = filterForm.querySelectorAll('.map__checkbox:checked');
-  const features = Array.from(housingFeatures).map( (el) => el.value);
+  const features = Array.from(housingFeatures).map((el) => el.value);
 
   const filteredAds = [];
   for(const ad of ads) {
@@ -63,4 +60,4 @@ const getFilteredAds = (ads) => {
   return filteredAds;
 };
 
-export {setMapFilterOff, setMapFilterOn, getFilteredAds};
+export {getFilteredAds};
