@@ -1,7 +1,7 @@
 const MAIN_URL = 'https://27.javascript.pages.academy/keksobooking';
-
+const GET_DATA_URL = `${MAIN_URL}/data`;
 const getListAd = (onSuccess, onFail) =>
-  fetch(`${MAIN_URL}/data`)
+  fetch(GET_DATA_URL)
     .then((response) => {
       if (response.ok) {
         return response;
