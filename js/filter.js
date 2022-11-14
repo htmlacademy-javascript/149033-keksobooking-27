@@ -12,10 +12,10 @@ const getToLowPrice = (priceInterval) => priceInterval < LOW_PRICE;
 const getBetweenLowAndHightPrice = (priceInterval) => priceInterval >= LOW_PRICE && priceInterval < HIGH_PRICE;
 const getAboveHightPrice = (priceInterval) => priceInterval >= HIGH_PRICE;
 const priceIntervals = {
-  'any': getAnyPrice,
-  'low': getToLowPrice,
-  'middle': getBetweenLowAndHightPrice,
-  'high': getAboveHightPrice
+  any: getAnyPrice,
+  low: getToLowPrice,
+  middle: getBetweenLowAndHightPrice,
+  high: getAboveHightPrice
 };
 const isTypeSelected = (ad, type) => type === 'any' || ad.offer.type === type;
 const isPriceSelected = (ad, priceInterval) => priceIntervals[priceInterval](ad.offer.price);
