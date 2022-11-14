@@ -218,22 +218,21 @@ const showFail = () => {
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
   adForm.addEventListener('submit', (evt) => {
-    if(!pristine.validate()) {
-      return showFail();
+    if(pristine.validate()) {
+      sendAdForm(
+        new FormData(evt.target),
+        latLng,
+        onSuccess,
+        showFail
+      );
+      resetMainPinMarker();
     }
-    sendAdForm(
-      new FormData(evt.target),
-      latLng,
-      onSuccess,
-      showFail
-    );
-    resetMainPinMarker();
   });
 };
 
 const onResetAdForm = (latLng, resetMainPinMarker) => {
-  const reset = adForm.querySelector('.ad-form__reset');
-  reset.addEventListener('click', (evt) => {
+  const buttonReset = adForm.querySelector('.ad-form__reset');
+  buttonReset.addEventListener('click', (evt) => {
     evt.preventDefault();
     resetAdForm();
     address.value = Object.values(latLng);

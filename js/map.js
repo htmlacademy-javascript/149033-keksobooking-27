@@ -30,12 +30,12 @@ const styleError = `
 
 const errorMessageMarkers = (err) => {
   const mapCanvas = document.querySelector('.map__canvas');
-  const div = document.createElement('div');
-  div.style.cssText = styleError;
-  div.textContent = `${err}`;
-  const toggleError = () => div.classList.toggle('hidden');
+  const errorElement = document.createElement('div');
+  errorElement.style.cssText = styleError;
+  errorElement.textContent = `${err}`;
+  const toggleError = () => errorElement.classList.toggle('hidden');
   setInterval(toggleError, 2000);
-  mapCanvas.append(div);
+  mapCanvas.append(errorElement);
 };
 
 const creatMainMarker = (currentMap, currentLatLng, icon) => {
