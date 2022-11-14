@@ -218,15 +218,16 @@ const showFail = () => {
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
   adForm.addEventListener('submit', (evt) => {
-    if(pristine.validate()) {
-      sendAdForm(
-        new FormData(evt.target),
-        latLng,
-        onSuccess,
-        showFail
-      );
-      resetMainPinMarker();
+    if(!pristine.validate()) {
+      return false;
     }
+    sendAdForm(
+      new FormData(evt.target),
+      latLng,
+      onSuccess,
+      showFail
+    );
+    resetMainPinMarker();
   });
 };
 
