@@ -27,6 +27,7 @@ const sendAdForm = (body, latLang, onSuccess, onFail) => {
         return onSuccess(latLang);
       }
       onFail();
+      throw new Error(`${response.status}. Ошибка получения обявлений по ссылке ${MAIN_URL}`);
     })
     .catch(() => {
       onFail();
