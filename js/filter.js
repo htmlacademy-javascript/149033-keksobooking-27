@@ -7,20 +7,19 @@ const housingTypeSelect = filterForm.querySelector('#housing-type');
 const housingPriceSelect = filterForm.querySelector('#housing-price');
 const housingRoomsSelect = filterForm.querySelector('#housing-rooms');
 const housingGuestsSelect = filterForm.querySelector('#housing-guests');
-
-const isTypeSelected = (ad, type) => type === 'any' || ad.offer.type === type;
-const isPriceSelected = (ad, price) => {
-  switch (price) {
-    case 'any':
-      return true;
-    case 'low':
-      return ad.offer.price < LOW_PRICE;
-    case 'middle':
-      return ad.offer.price >= LOW_PRICE && ad.offer.price < HIGH_PRICE;
-    case 'high':
-      return ad.offer.price >= HIGH_PRICE;
-  }
+const getAnyPrice = () => true;
+const getToLowPrice = (priceInterval) => priceInterval < LOW_PRICE;
+const getBetweenLowAndHightPrice = (priceInterval) => priceInterval >= LOW_PRICE && priceInterval < HIGH_PRICE;
+const getAboveHightPrice = (priceInterval) => priceInterval >= HIGH_PRICE;
+const priceIntervals = {
+  'any': getAnyPrice,
+  'low': getToLowPrice,
+  'middle': getBetweenLowAndHightPrice,
+  'high': getAboveHightPrice
 };
+const isTypeSelected = (ad, type) => type === 'any' || ad.offer.type === type;
+const isPriceSelected = (ad, priceInterval) => priceIntervals[priceInterval](ad.offer.price);
+
 const isRoomsSelected = (ad, rooms) => rooms === 'any' || ad.offer.rooms === Number(rooms);
 const isGuestsSelected = (ad, guests) => guests === 'any' || ad.offer.guests === Number(guests);
 const isFeaturesSelected = (ad, features) => {
