@@ -1,11 +1,12 @@
 import {creatAd} from './card.js';
 import {initMap} from './init-map.js';
-
+import {getFilteredAds} from './filter.js';
+import {debounce} from './util.js';
 const MAIN_PIN_WIDTH_LENGTH = [52, 52];
 const MAIN_PIN_ANCHOR_XY = [26, 52];
 const PIN_WIDTH_LENGTH = [40, 40];
 const PIN_ANCHOR_XY = [20, 40];
-
+const address = document.querySelector('#address');
 const map = initMap();
 
 const mainPinIcon = L.icon({
@@ -19,14 +20,28 @@ const pinIcon = L.icon({
   iconSize: PIN_WIDTH_LENGTH,
   iconAnchor: PIN_ANCHOR_XY,
 });
+const styleError = `
+  background-color: white;
+  color: red;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 999 `;
+
+const errorMessageMarkers = (err) => {
+  const mapCanvas = document.querySelector('.map__canvas');
+  const errorElement = document.createElement('div');
+  errorElement.style.cssText = styleError;
+  errorElement.textContent = `${err}`;
+  const toggleError = () => errorElement.classList.toggle('hidden');
+  setInterval(toggleError, 2000);
+  mapCanvas.append(errorElement);
+};
 
 const creatMainMarker = (currentMap, currentLatLng, icon) => {
-  const address = document.querySelector('#address');
+
   address.setAttribute('readonly', 'readonly');
-  const handlerMarkerOnMoveend = (evt) => {
-    const {lng, lat} = evt.target.getLatLng();
-    address.value = `${lng.toFixed(5)}, ${lat.toFixed(5)}`;
-  };
+
   const mainMarker = L.marker(
     currentLatLng,
     {
@@ -34,11 +49,14 @@ const creatMainMarker = (currentMap, currentLatLng, icon) => {
       icon: icon,
     },
   );
-  mainMarker.on('moveend', handlerMarkerOnMoveend).addTo(currentMap);
+  document.querySelector('#address').value = Object.values(currentLatLng);
+
+  return mainMarker;
 };
 
+let markerGroup;
 const creatMarkers = (currentMap, mainIcon, ads) => {
-  const markerGroup = L.layerGroup().addTo(currentMap);
+  markerGroup = L.layerGroup().addTo(currentMap);
   const creatMarker = (ad) => {
     L.marker(
       ad.location,
@@ -50,13 +68,38 @@ const creatMarkers = (currentMap, mainIcon, ads) => {
   ads.forEach((ad) => {
     creatMarker(ad);
   });
+  return markerGroup;
 };
 
-const creatMap = (ads) => {
-  const latLng = map.getCenter();
-  creatMainMarker(map, latLng , mainPinIcon);
-  creatMarkers(map, pinIcon, ads);
+const latLng = map.getCenter();
+const zoom = map.STARING_ZOOM;
+const getCenterMap = () => map.getCenter();
+const creatMainMarkerOnMap = () => creatMainMarker(map, latLng , mainPinIcon);
+const removeMarkerGroup = () => map.removeLayer(markerGroup);
+const filterElement = document.querySelector('.map__filters');
+
+const setFilteredAdsOnMap = (ads) => {
+  removeMarkerGroup();
+  creatMarkers(map, pinIcon, getFilteredAds(ads));
 };
 
-export {creatMap};
+const creatMarkersOnMap = (ads) => {
+  creatMarkers(map, pinIcon, getFilteredAds(ads));
+  filterElement.addEventListener('change', debounce( () => setFilteredAdsOnMap(ads) ));
+};
+
+const mainMarkerCurrent = creatMainMarker(map, latLng , mainPinIcon);
+mainMarkerCurrent.addTo(map);
+const handlerMarkerOnMoveend = (evt) => {
+  const {lng, lat} = evt.target.getLatLng();
+  address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
+};
+mainMarkerCurrent.on('moveend', handlerMarkerOnMoveend).addTo(map);
+const resetMainPinMarker = () => {
+  map.closePopup();
+  map.setView(new L.LatLng(latLng.lat, latLng.lng), zoom);
+  mainMarkerCurrent.setLatLng(L.latLng(latLng));
+};
+
+export {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers, getCenterMap, resetMainPinMarker};
 

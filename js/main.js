@@ -1,9 +1,13 @@
-import {creatListAd} from './data.js';
-import './form.js';
+import {initForm, onSubmitAdForm, onResetAdForm} from './form.js';
 import {setPageOff} from './toggle-page-status.js';
 import './filter.js';
-import {creatMap} from './map.js';
+import {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers, getCenterMap, resetMainPinMarker} from './map.js';
+import {getListAd, sendAdForm} from './api.js';
 
+initForm();
 setPageOff();
-creatMap(creatListAd());
+creatMainMarkerOnMap();
+getListAd(creatMarkersOnMap,errorMessageMarkers);
 
+onSubmitAdForm(sendAdForm, getCenterMap(), resetMainPinMarker);
+onResetAdForm(getCenterMap(), resetMainPinMarker);
