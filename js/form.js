@@ -1,5 +1,6 @@
 import { isVildTypeImg } from './valid-arguments.js';
 const adForm = document.querySelector('.ad-form');
+const filterForm = document.querySelector('.map__filters');
 const fileAvatar = adForm.querySelector('#avatar');
 const previewAvatar = adForm.querySelector('.ad-form-header__preview').firstElementChild;
 const uploadImg = adForm.querySelector('#images');
@@ -216,7 +217,7 @@ const showFail = () => {
   hiddenElementClick(error);
 };
 
-const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
+const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd) => {
   adForm.addEventListener('submit', (evt) => {
     if(!pristine.validate()) {
       return false;
@@ -227,17 +228,21 @@ const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker) => {
       onSuccess,
       showFail
     );
+    filterForm.reset();
+    restartGetListAd();
     resetMainPinMarker();
   });
 };
 
-const onResetAdForm = (latLng, resetMainPinMarker) => {
+const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
   const buttonReset = adForm.querySelector('.ad-form__reset');
   buttonReset.addEventListener('click', (evt) => {
     evt.preventDefault();
     resetAdForm();
     address.value = Object.values(latLng);
     sliderElement.noUiSlider.reset();
+    filterForm.reset();
+    restartGetListAd();
     resetMainPinMarker();
   });
 };

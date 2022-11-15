@@ -8,6 +8,7 @@ initForm();
 setPageOff();
 creatMainMarkerOnMap();
 getListAd(creatMarkersOnMap,errorMessageMarkers);
+const restartGetListAd = () => getListAd(creatMarkersOnMap,errorMessageMarkers);
 
-onSubmitAdForm(sendAdForm, getCenterMap(), resetMainPinMarker);
-onResetAdForm(getCenterMap(), resetMainPinMarker);
+onSubmitAdForm(sendAdForm, getCenterMap(), resetMainPinMarker, restartGetListAd);
+onResetAdForm(getCenterMap(), resetMainPinMarker, restartGetListAd);
