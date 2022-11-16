@@ -1,5 +1,5 @@
 import {creatAd} from './card.js';
-import {initMap} from './init-map.js';
+import {initialingTheMap} from './init-map.js';
 import {getFilteredAds} from './filter.js';
 import {debounce} from './util.js';
 const MAIN_PIN_WIDTH_LENGTH = [52, 52];
@@ -7,7 +7,7 @@ const MAIN_PIN_ANCHOR_XY = [26, 52];
 const PIN_WIDTH_LENGTH = [40, 40];
 const PIN_ANCHOR_XY = [20, 40];
 const address = document.querySelector('#address');
-const map = initMap();
+const map = initialingTheMap();
 
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
@@ -28,7 +28,7 @@ const styleError = `
   text-align: center;
   z-index: 999 `;
 
-const errorMessageMarkers = (err) => {
+const showErrorMessageMarkers = (err) => {
   const mapCanvas = document.querySelector('.map__canvas');
   const errorElement = document.createElement('div');
   errorElement.style.cssText = styleError;
@@ -90,16 +90,16 @@ const creatMarkersOnMap = (ads) => {
 
 const mainMarkerCurrent = creatMainMarker(map, latLng , mainPinIcon);
 mainMarkerCurrent.addTo(map);
-const handlerMarkerOnMoveend = (evt) => {
+const markerMoveendHandler = (evt) => {
   const {lng, lat} = evt.target.getLatLng();
   address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
 };
-mainMarkerCurrent.on('moveend', handlerMarkerOnMoveend).addTo(map);
+mainMarkerCurrent.on('moveend', markerMoveendHandler).addTo(map);
 const resetMainPinMarker = () => {
   map.closePopup();
   map.setView(new L.LatLng(latLng.lat, latLng.lng), zoom);
   mainMarkerCurrent.setLatLng(L.latLng(latLng));
 };
 
-export {creatMainMarkerOnMap, creatMarkersOnMap, errorMessageMarkers, getCenterMap, resetMainPinMarker};
+export {creatMainMarkerOnMap, creatMarkersOnMap, showErrorMessageMarkers, getCenterMap, resetMainPinMarker};
 
