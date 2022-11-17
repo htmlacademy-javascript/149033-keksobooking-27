@@ -191,7 +191,7 @@ const showSuccess = () => {
 };
 const resetAdForm = () => {
   adForm.reset();
-  previewAvatar.src = DEFAULT_PREVIEW;
+  previewAvatar.querySelector('img').src = DEFAULT_PREVIEW;
   photoAdForm.innerHTML = '';
   pristine.reset();
 };
