@@ -45,7 +45,25 @@ const fileAvatarChangeHandler = () => {
 };
 fileAvatar.addEventListener('change', fileAvatarChangeHandler);
 
+const appendImgElement = (imgElement, file) => {
+  imgElement.innerHTML = '';
+  const img = document.createElement('img');
+  img.style.maxWidth = '100%';
+  img.style.height = 'auto';
+  imgElement.append(img);
+  img.src = URL.createObjectURL(file);
+};
+const imgChangeHandler = (imgInput, imgPreview) => {
+  const file = imgInput.files[0];
+  const fileName = file.name.toLowerCase();
 
+  if (file && isVildTypeImg(fileName)) {
+    if (!imgPreview.firstElementChild) {
+      return appendImgElement(imgPreview, file);
+    }
+    imgPreview.src = URL.createObjectURL(file);
+  }
+};
 const imgAdChangeHandler = () => {
   const file = uploaderImg.files[0];
   const fileName = file.name.toLowerCase();
