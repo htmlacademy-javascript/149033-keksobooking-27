@@ -7,7 +7,7 @@ const MAX_PRICE = 100000;
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const fileAvatar = adForm.querySelector('#avatar');
-const previewAvatar = adForm.querySelector('.ad-form-header__preview').firstElementChild;
+const previewAvatar = adForm.querySelector('.ad-form-header__preview');
 const uploaderImg = adForm.querySelector('#images');
 const photoAdForm = adForm.querySelector('.ad-form__photo');
 
@@ -34,51 +34,25 @@ const pricesOfHousing = {
   house: 5000,
   palace: 10000,
 };
-
-const fileAvatarChangeHandler = () => {
-  const file = fileAvatar.files[0];
-  const fileName = file.name.toLowerCase();
-
-  if (file && isVildTypeImg(fileName)) {
-    previewAvatar.src = URL.createObjectURL(file);
-  }
-};
-fileAvatar.addEventListener('change', fileAvatarChangeHandler);
-
-const appendImgElement = (imgElement, file) => {
-  imgElement.innerHTML = '';
+const createdElementImg = (element) => {
+  element.innerHTML = '';
   const img = document.createElement('img');
   img.style.maxWidth = '100%';
   img.style.height = 'auto';
-  imgElement.append(img);
-  img.src = URL.createObjectURL(file);
+  element.append(img);
+  return img;
 };
-const imgChangeHandler = (imgInput, imgPreview) => {
-  const file = imgInput.files[0];
+const imgChangeHandler = (inputImg, previewImg) => {
+  const file = inputImg.files[0];
   const fileName = file.name.toLowerCase();
-
   if (file && isVildTypeImg(fileName)) {
-    if (!imgPreview.firstElementChild) {
-      return appendImgElement(imgPreview, file);
-    }
-    imgPreview.src = URL.createObjectURL(file);
-  }
-};
-const imgAdChangeHandler = () => {
-  const file = uploaderImg.files[0];
-  const fileName = file.name.toLowerCase();
-
-  if (file && isVildTypeImg(fileName)) {
-    photoAdForm.innerHTML = '';
-    const img = document.createElement('img');
-    img.style.maxWidth = '100%';
-    img.style.height = 'auto';
-    photoAdForm.append(img);
-
+    const img = previewImg.querySelector('img') ?? createdElementImg(previewImg);
     img.src = URL.createObjectURL(file);
   }
 };
-uploaderImg.addEventListener('change', imgAdChangeHandler);
+
+fileAvatar.addEventListener('change', () => imgChangeHandler(fileAvatar, previewAvatar));
+uploaderImg.addEventListener('change', () => imgChangeHandler(uploaderImg, photoAdForm));
 
 noUiSlider.create(sliderElement, {
   range: {
