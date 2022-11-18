@@ -8,7 +8,7 @@ const START_ZOOM = 13;
 const URL_TEMPLATE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT_MAP = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-const initMap = () => {
+const initialingTheMap = () => {
   const currentMap = L.map('map-canvas');
   currentMap.setView(START_LAT_LNG, START_ZOOM);
   const layerMap = L.tileLayer(
@@ -21,4 +21,4 @@ const initMap = () => {
   return currentMap;
 };
 
-export {initMap};
+export {initialingTheMap};
