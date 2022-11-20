@@ -42,6 +42,7 @@ const createdElementImg = (element) => {
   element.append(img);
   return img;
 };
+
 const imgChangeHandler = (inputImg, previewImg) => {
   const file = inputImg.files[0];
   const fileName = file.name.toLowerCase();
@@ -50,9 +51,14 @@ const imgChangeHandler = (inputImg, previewImg) => {
     img.src = URL.createObjectURL(file);
   }
 };
-
-fileAvatar.addEventListener('change', () => imgChangeHandler(fileAvatar, previewAvatar));
-uploaderImg.addEventListener('change', () => imgChangeHandler(uploaderImg, photoAdForm));
+const fileAvatarChangeHandler = () => {
+  imgChangeHandler(fileAvatar, previewAvatar);
+};
+const uploaderImgChangeHandler = () => {
+  imgChangeHandler(uploaderImg, photoAdForm);
+};
+fileAvatar.addEventListener('change', fileAvatarChangeHandler);
+uploaderImg.addEventListener('change', uploaderImgChangeHandler);
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -165,12 +171,12 @@ const resetSliderPrice = () => {
   const slider = document.querySelector('.ad-form__slider');
   slider.noUiSlider.reset();
 };
-
-const hiddeningElementClick = (element) => element.addEventListener('click', (evt) => {
+const elementClickHandler = (evt) => {
   if(evt.currentTarget.matches('.success') || evt.currentTarget.matches('.error') ) {
-    element.classList.add('hidden');
+    evt.target.classList.add('hidden');
   }
-});
+};
+const hiddeningElementClick = (element) => element.addEventListener('click', elementClickHandler);
 
 const hiddeningElementEsc = (element) => {
   const handleBodyKeydown = (evt) => {
