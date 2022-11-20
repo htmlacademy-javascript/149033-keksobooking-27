@@ -1,4 +1,4 @@
-import {setPageOn} from './toggle-page-status.js';
+import { setPageOn } from './toggle-page-status.js';
 
 const START_LAT_LNG = {
   lat: 35.6804,
@@ -21,4 +21,4 @@ const initialingTheMap = () => {
   return currentMap;
 };
 
-export {initialingTheMap};
+export { initialingTheMap };

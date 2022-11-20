@@ -116,4 +116,4 @@ const creatAd = ({
   return cardElement;
 };
 
-export {creatAd};
+export { creatAd };

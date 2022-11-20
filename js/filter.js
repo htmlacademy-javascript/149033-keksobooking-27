@@ -59,4 +59,4 @@ const getFilteredAds = (ads) => {
   return filteredAds;
 };
 
-export {getFilteredAds};
+export { getFilteredAds };
