@@ -29,4 +29,4 @@ const setPageOff = () => {
 };
 
 
-export {setPageOn, setPageOff,setAdFormOff, setAdFormOn, setMapFilterOff, setMapFilterOn};
+export { setPageOn, setPageOff };

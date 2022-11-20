@@ -239,4 +239,4 @@ const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
     resetMainPinMarker();
   });
 };
-export{ initialingTheForm, onSubmitAdForm, onResetAdForm};
+export{ initialingTheForm, onSubmitAdForm, onResetAdForm };

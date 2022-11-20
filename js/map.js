@@ -1,7 +1,7 @@
-import {creatAd} from './card.js';
-import {initialingTheMap} from './init-map.js';
-import {getFilteredAds} from './filter.js';
-import {debounce} from './util.js';
+import { creatAd } from './card.js';
+import { initialingTheMap } from './init-map.js';
+import { getFilteredAds } from './filter.js';
+import { debounce } from './util.js';
 const MAIN_PIN_WIDTH_LENGTH = [52, 52];
 const MAIN_PIN_ANCHOR_XY = [26, 52];
 const PIN_WIDTH_LENGTH = [40, 40];
@@ -103,5 +103,5 @@ const resetMainPinMarker = () => {
   mainMarkerCurrent.setLatLng(L.latLng(latLng));
 };
 
-export {creatMainMarkerOnMap, creatMarkersOnMap, showErrorMessageMarkers, getCenterMap, resetMainPinMarker};
+export { creatMainMarkerOnMap, creatMarkersOnMap, showErrorMessageMarkers, getCenterMap, resetMainPinMarker };
 
