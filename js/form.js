@@ -104,10 +104,10 @@ const initialingTheForm = () => {
   const roomNumber = adForm.querySelector('#room_number');
   const capacity = adForm.querySelector('#capacity');
   const placingGuests = {
-    '1': ['1'],
-    '2': ['1','2'],
-    '3': ['1','2','3'],
-    '100': ['0']
+    1: ['1'],
+    2: ['1','2'],
+    3: ['1','2','3'],
+    100: ['0']
   };
 
   const checkingFieldRoomNumber = (value) => placingGuests[value].includes(capacity.value);
