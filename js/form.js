@@ -217,7 +217,7 @@ const showFail = () => {
 };
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd) => {
-  adForm.addEventListener('submit', (evt) => {
+  const adformSubmintHandler = (evt) => {
     if(!pristine.validate()) {
       return false;
     }
@@ -230,12 +230,13 @@ const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd)
     filterForm.reset();
     restartGetListAd();
     resetMainPinMarker();
-  });
+  };
+  adForm.addEventListener('submit', adformSubmintHandler);
 };
 
 const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
   const buttonReset = adForm.querySelector('.ad-form__reset');
-  buttonReset.addEventListener('click', (evt) => {
+  const buttonResetClickHandler = (evt) => {
     evt.preventDefault();
     resetAdForm();
     address.value = Object.values(latLng);
@@ -243,6 +244,7 @@ const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
     filterForm.reset();
     restartGetListAd();
     resetMainPinMarker();
-  });
+  };
+  buttonReset.addEventListener('click', buttonResetClickHandler);
 };
 export{ initialingTheForm, onSubmitAdForm, onResetAdForm };
