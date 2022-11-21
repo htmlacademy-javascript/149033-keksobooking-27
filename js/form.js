@@ -1,15 +1,11 @@
-import { isVildTypeImg } from './valid-arguments.js';
-const DEFAULT_PREVIEW = 'img/muffin-grey.svg';
+import { setOnImgChangeHandler, resetImgAvatar } from './photo.js';
+
 const MIN_TITLE = 30;
 const MAX_TITLE = 100;
 const MAX_PRICE = 100000;
 
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
-const fileAvatar = adForm.querySelector('#avatar');
-const previewAvatar = adForm.querySelector('.ad-form-header__preview');
-const uploaderImg = adForm.querySelector('#images');
-const photoAdForm = adForm.querySelector('.ad-form__photo');
 
 const textErrorTitle = `Ведите от ${MIN_TITLE} до ${MAX_TITLE} символов`;
 const checkingFieldTitle = (value) => value.length >= MIN_TITLE && value.length <= MAX_TITLE;
@@ -34,31 +30,8 @@ const pricesOfHousing = {
   house: 5000,
   palace: 10000,
 };
-const createdElementImg = (element) => {
-  element.innerHTML = '';
-  const img = document.createElement('img');
-  img.style.maxWidth = '100%';
-  img.style.height = 'auto';
-  element.append(img);
-  return img;
-};
 
-const imgChangeHandler = (inputImg, previewImg) => {
-  const file = inputImg.files[0];
-  const fileName = file.name.toLowerCase();
-  if (file && isVildTypeImg(fileName)) {
-    const img = previewImg.querySelector('img') ?? createdElementImg(previewImg);
-    img.src = URL.createObjectURL(file);
-  }
-};
-const fileAvatarChangeHandler = () => {
-  imgChangeHandler(fileAvatar, previewAvatar);
-};
-const uploaderImgChangeHandler = () => {
-  imgChangeHandler(uploaderImg, photoAdForm);
-};
-fileAvatar.addEventListener('change', fileAvatarChangeHandler);
-uploaderImg.addEventListener('change', uploaderImgChangeHandler);
+setOnImgChangeHandler();
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -197,8 +170,7 @@ const showSuccess = () => {
 };
 const resetAdForm = () => {
   adForm.reset();
-  previewAvatar.querySelector('img').src = DEFAULT_PREVIEW;
-  photoAdForm.innerHTML = '';
+  resetImgAvatar();
   pristine.reset();
 };
 const onSuccess = (latLang) => {
