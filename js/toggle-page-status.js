@@ -1,16 +1,16 @@
-const adForm = document.querySelector('.ad-form');
-const mapFilter = document.querySelector('.map__filters');
+const adFormElement = document.querySelector('.ad-form');
+const mapFilterElement = document.querySelector('.map__filters');
 
 const setAdFormDisabled = (flagDisabled) => {
-  adForm.classList.toggle('.ad-form--disabled');
-  [...adForm.children].forEach((item) => {
+  adFormElement.classList.toggle('.ad-form--disabled');
+  [...adFormElement.children].forEach((item) => {
     item.disabled = flagDisabled;
   });
 };
 
 const setMapFilterDisabled = (flagDisabled) => {
-  mapFilter.classList.toggle('.ad-form--disabled');
-  [...mapFilter.children].forEach((item) => {
+  mapFilterElement.classList.toggle('.ad-form--disabled');
+  [...mapFilterElement.children].forEach((item) => {
     item.disabled = flagDisabled;
   });
 };

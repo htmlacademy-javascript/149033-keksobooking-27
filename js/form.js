@@ -4,12 +4,12 @@ const MIN_TITLE = 30;
 const MAX_TITLE = 100;
 const MAX_PRICE = 100000;
 
-const adForm = document.querySelector('.ad-form');
-const filterForm = document.querySelector('.map__filters');
+const adFormElement = document.querySelector('.ad-form');
+const filterFormElement = document.querySelector('.map__filters');
 
 const textErrorTitle = `Ведите от ${MIN_TITLE} до ${MAX_TITLE} символов`;
 const checkingFieldTitle = (value) => value.length >= MIN_TITLE && value.length <= MAX_TITLE;
-const pristine = new Pristine(adForm, {
+const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
   successClass: 'ad-form__element--valid',
@@ -17,11 +17,11 @@ const pristine = new Pristine(adForm, {
   errorTextTag: 'span',
   errorTextClass: 'text-help'
 });
-const type = adForm.querySelector('#type');
-const price = adForm.querySelector('#price');
+const typeElement = adFormElement.querySelector('#type');
+const priceElement = adFormElement.querySelector('#price');
 const sliderElement = document.querySelector('.ad-form__slider');
-const address = document.querySelector('#address');
-const body = document.querySelector('body');
+const addressElement = document.querySelector('#address');
+const bodyElement = document.querySelector('body');
 
 const pricesOfHousing = {
   bungalow: 0,
@@ -35,27 +35,27 @@ setOnImgChangeHandler();
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: pricesOfHousing[type.value],
+    min: pricesOfHousing[typeElement.value],
     max: MAX_PRICE,
   },
-  start: pricesOfHousing[type.value],
+  start: pricesOfHousing[typeElement.value],
   step: 1,
   connect: 'lower',
 });
 const setAttributePriceOfType = () => {
-  price.setAttribute('min', pricesOfHousing[type.value]);
-  price.setAttribute('placeholder', pricesOfHousing[type.value]);
+  priceElement.setAttribute('min', pricesOfHousing[typeElement.value]);
+  priceElement.setAttribute('placeholder', pricesOfHousing[typeElement.value]);
 };
 setAttributePriceOfType();
-const typeChangeHandler = () => {
+const typeElementChangeHandler = () => {
   setAttributePriceOfType();
-  sliderElement.noUiSlider.set(pricesOfHousing[type.value]);
-  price.value = '';
+  sliderElement.noUiSlider.set(pricesOfHousing[typeElement.value]);
+  priceElement.value = '';
 };
 
 const initialingTheForm = () => {
   pristine.addValidator(
-    adForm.querySelector('#title'),
+    adFormElement.querySelector('#title'),
     checkingFieldTitle,
     textErrorTitle,
     2,
@@ -63,25 +63,25 @@ const initialingTheForm = () => {
   );
 
   sliderElement.noUiSlider.on('update', () => {
-    price.value = sliderElement.noUiSlider.get();
-    pristine.validate(price);
+    priceElement.value = sliderElement.noUiSlider.get();
+    pristine.validate(priceElement);
   });
 
 
-  type.addEventListener('change', typeChangeHandler);
+  typeElement.addEventListener('change', typeElementChangeHandler);
 
-  const checkingFieldPrice = (value) => (value >= pricesOfHousing[type.value]) && (value <= MAX_PRICE);
-  const getTextErrorForPrice = () => `Цена от ${price.getAttribute('min')} до ${MAX_PRICE}`;
+  const checkingFieldPrice = (value) => (value >= pricesOfHousing[typeElement.value]) && (value <= MAX_PRICE);
+  const getTextErrorForPrice = () => `Цена от ${priceElement.getAttribute('min')} до ${MAX_PRICE}`;
   pristine.addValidator(
-    price,
+    priceElement,
     checkingFieldPrice,
     getTextErrorForPrice,
     2,
     true
   );
 
-  const roomNumber = adForm.querySelector('#room_number');
-  const capacity = adForm.querySelector('#capacity');
+  const roomNumberElement = adFormElement.querySelector('#room_number');
+  const capacityElement = adFormElement.querySelector('#capacity');
   const placingGuests = {
     1: ['1'],
     2: ['1','2'],
@@ -89,60 +89,60 @@ const initialingTheForm = () => {
     100: ['0']
   };
 
-  const checkingFieldRoomNumber = (value) => placingGuests[value].includes(capacity.value);
-  const getTextErrorForRoomNumber = (value) => `Комнат: ${value}. Гостей: ${capacity.value}`;
+  const checkingFieldRoomNumber = (value) => placingGuests[value].includes(capacityElement.value);
+  const getTextErrorForRoomNumber = (value) => `Комнат: ${value}. Гостей: ${capacityElement.value}`;
   pristine.addValidator(
-    roomNumber,
+    roomNumberElement,
     checkingFieldRoomNumber,
     getTextErrorForRoomNumber,
   );
 
-  const checkingFieldCapacity = (value) => placingGuests[roomNumber.value].includes(value);
-  const getTextErrorCapacity = (value) => `Комнат: ${roomNumber.value}. Гостей: ${value}`;
+  const checkingFieldCapacity = (value) => placingGuests[roomNumberElement.value].includes(value);
+  const getTextErrorCapacity = (value) => `Комнат: ${roomNumberElement.value}. Гостей: ${value}`;
   pristine.addValidator(
-    capacity,
+    capacityElement,
     checkingFieldCapacity,
     getTextErrorCapacity
   );
 
-  const RoomNumberChangeHandler = () => {
-    pristine.validate(roomNumber);
-    pristine.validate(capacity);
+  const RoomNumberElementChangeHandler = () => {
+    pristine.validate(roomNumberElement);
+    pristine.validate(capacityElement);
   };
-  roomNumber.addEventListener('change', RoomNumberChangeHandler);
+  roomNumberElement.addEventListener('change', RoomNumberElementChangeHandler);
 
-  const capacityChangeHandler = () => {
-    pristine.validate(roomNumber);
-    pristine.validate(capacity);
+  const capacityElementChangeHandler = () => {
+    pristine.validate(roomNumberElement);
+    pristine.validate(capacityElement);
   };
-  capacity.addEventListener('change', capacityChangeHandler);
+  capacityElement.addEventListener('change', capacityElementChangeHandler);
 
-  const timein = adForm.querySelector('#timein');
-  const timeout = adForm.querySelector('#timeout');
+  const timeinElement = adFormElement.querySelector('#timein');
+  const timeoutElement = adFormElement.querySelector('#timeout');
 
-  const timeinChangeHandler = (evt) => {
-    timeout.value = evt.target.value;
+  const timeinElementChangeHandler = (evt) => {
+    timeoutElement.value = evt.target.value;
   };
-  timein.addEventListener('change', timeinChangeHandler);
+  timeinElement.addEventListener('change', timeinElementChangeHandler);
 
-  const timeoutChangeHandler = (evt) => {
-    timein.value = evt.target.value;
+  const timeoutElementChangeHandler = (evt) => {
+    timeinElement.value = evt.target.value;
   };
-  timeout.addEventListener('change', timeoutChangeHandler);
+  timeoutElement.addEventListener('change', timeoutElementChangeHandler);
 
-  const adFormSubmintHandler = (evt) => {
+  const adFormElementSubmintHandler = (evt) => {
     evt.preventDefault();
     pristine.validate();
   };
-  adForm.addEventListener('submit', adFormSubmintHandler);
+  adFormElement.addEventListener('submit', adFormElementSubmintHandler);
 
-  const setAdrressReadonly = () => address.setAttribute('readonly', 'readonly');
+  const setAdrressReadonly = () => addressElement.setAttribute('readonly', 'readonly');
   setAdrressReadonly();
 };
 
 const resetSliderPrice = () => {
-  const slider = document.querySelector('.ad-form__slider');
-  slider.noUiSlider.reset();
+  const sliderAdFormElement = document.querySelector('.ad-form__slider');
+  sliderAdFormElement.noUiSlider.reset();
 };
 const elementClickHandler = (evt) => {
   if(evt.currentTarget.matches('.success') || evt.currentTarget.matches('.error') ) {
@@ -162,20 +162,20 @@ const hiddeningElementEsc = (element) => {
 };
 
 const showSuccess = () => {
-  const successTmpl = document.querySelector('#success').content.querySelector('.success');
-  const success = successTmpl.cloneNode(true);
-  body.append(success);
+  const successTmplElement = document.querySelector('#success').content.querySelector('.success');
+  const success = successTmplElement.cloneNode(true);
+  bodyElement.append(success);
   hiddeningElementEsc(success);
   hiddeningElementClick(success);
 };
 const resetAdForm = () => {
-  adForm.reset();
+  adFormElement.reset();
   resetImgAvatar();
   pristine.reset();
 };
 const onSuccess = (latLang) => {
   resetAdForm();
-  address.value = Object.values(latLang);
+  addressElement.value = Object.values(latLang);
   resetSliderPrice();
   showSuccess();
 };
@@ -183,13 +183,13 @@ const onSuccess = (latLang) => {
 const showFail = () => {
   const errorElement = document.querySelector('#error').content.querySelector('.error');
   const error = errorElement.cloneNode(true);
-  body.append(error);
+  bodyElement.append(error);
   hiddeningElementEsc(error);
   hiddeningElementClick(error);
 };
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd) => {
-  const adformSubmintHandler = (evt) => {
+  const adFormElementSubmintHandler = (evt) => {
     if(!pristine.validate()) {
       return false;
     }
@@ -199,24 +199,24 @@ const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd)
       onSuccess,
       showFail
     );
-    filterForm.reset();
+    filterFormElement.reset();
     restartGetListAd();
     resetMainPinMarker();
   };
-  adForm.addEventListener('submit', adformSubmintHandler);
+  adFormElement.addEventListener('submit', adFormElementSubmintHandler);
 };
 
 const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
-  const buttonReset = adForm.querySelector('.ad-form__reset');
-  const buttonResetClickHandler = (evt) => {
+  const buttonResetElement = adFormElement.querySelector('.ad-form__reset');
+  const buttonResetElementClickHandler = (evt) => {
     evt.preventDefault();
     resetAdForm();
-    address.value = Object.values(latLng);
+    addressElement.value = Object.values(latLng);
     sliderElement.noUiSlider.reset();
-    filterForm.reset();
+    filterFormElement.reset();
     restartGetListAd();
     resetMainPinMarker();
   };
-  buttonReset.addEventListener('click', buttonResetClickHandler);
+  buttonResetElement.addEventListener('click', buttonResetElementClickHandler);
 };
 export{ initialingTheForm, onSubmitAdForm, onResetAdForm };

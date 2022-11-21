@@ -8,7 +8,7 @@ const COORDINATES_PIN_WIDTH_LENGTH = [40, 40];
 const COORDINATES_PIN_ANCHOR_XY = [20, 40];
 const DELAY_TIME = 2000;
 const NUMBER_OF_DECIMAL_PLACES = 5;
-const address = document.querySelector('#address');
+const addressElement = document.querySelector('#address');
 const map = initialingTheMap();
 
 const mainPinIcon = L.icon({
@@ -31,18 +31,18 @@ const styleError = `
   z-index: 999 `;
 
 const showErrorMessageMarkers = (err) => {
-  const mapCanvas = document.querySelector('.map__canvas');
+  const mapCanvasElement = document.querySelector('.map__canvas');
   const errorElement = document.createElement('div');
   errorElement.style.cssText = styleError;
   errorElement.textContent = `${err}`;
   const toggleError = () => errorElement.classList.toggle('hidden');
   setInterval(toggleError, DELAY_TIME);
-  mapCanvas.append(errorElement);
+  mapCanvasElement.append(errorElement);
 };
 
 const creatMainMarker = (currentMap, currentLatLng, icon) => {
 
-  address.setAttribute('readonly', 'readonly');
+  addressElement.setAttribute('readonly', 'readonly');
 
   const mainMarker = L.marker(
     currentLatLng,
@@ -96,7 +96,7 @@ const mainMarkerCurrent = creatMainMarker(map, latLng , mainPinIcon);
 mainMarkerCurrent.addTo(map);
 const markerMoveEndHandler = (evt) => {
   const {lng, lat} = evt.target.getLatLng();
-  address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
+  addressElement.value = `${lng.toFixed(NUMBER_OF_DECIMAL_PLACES)},${lat.toFixed(NUMBER_OF_DECIMAL_PLACES)}`;
 };
 mainMarkerCurrent.on('moveend', markerMoveEndHandler).addTo(map);
 const resetMainPinMarker = () => {
