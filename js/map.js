@@ -6,6 +6,7 @@ const MAIN_PIN_WIDTH_LENGTH = [52, 52];
 const MAIN_PIN_ANCHOR_XY = [26, 52];
 const PIN_WIDTH_LENGTH = [40, 40];
 const PIN_ANCHOR_XY = [20, 40];
+const DELAY_TIME = 2000;
 const address = document.querySelector('#address');
 const map = initialingTheMap();
 
@@ -34,7 +35,7 @@ const showErrorMessageMarkers = (err) => {
   errorElement.style.cssText = styleError;
   errorElement.textContent = `${err}`;
   const toggleError = () => errorElement.classList.toggle('hidden');
-  setInterval(toggleError, 2000);
+  setInterval(toggleError, DELAY_TIME);
   mapCanvas.append(errorElement);
 };
 

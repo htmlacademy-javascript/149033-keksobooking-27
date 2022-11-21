@@ -42,6 +42,7 @@ const createdElementImg = (element) => {
   element.append(img);
   return img;
 };
+
 const imgChangeHandler = (inputImg, previewImg) => {
   const file = inputImg.files[0];
   const fileName = file.name.toLowerCase();
@@ -50,9 +51,14 @@ const imgChangeHandler = (inputImg, previewImg) => {
     img.src = URL.createObjectURL(file);
   }
 };
-
-fileAvatar.addEventListener('change', () => imgChangeHandler(fileAvatar, previewAvatar));
-uploaderImg.addEventListener('change', () => imgChangeHandler(uploaderImg, photoAdForm));
+const fileAvatarChangeHandler = () => {
+  imgChangeHandler(fileAvatar, previewAvatar);
+};
+const uploaderImgChangeHandler = () => {
+  imgChangeHandler(uploaderImg, photoAdForm);
+};
+fileAvatar.addEventListener('change', fileAvatarChangeHandler);
+uploaderImg.addEventListener('change', uploaderImgChangeHandler);
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -104,10 +110,10 @@ const initialingTheForm = () => {
   const roomNumber = adForm.querySelector('#room_number');
   const capacity = adForm.querySelector('#capacity');
   const placingGuests = {
-    '1': ['1'],
-    '2': ['1','2'],
-    '3': ['1','2','3'],
-    '100': ['0']
+    1: ['1'],
+    2: ['1','2'],
+    3: ['1','2','3'],
+    100: ['0']
   };
 
   const checkingFieldRoomNumber = (value) => placingGuests[value].includes(capacity.value);
@@ -165,12 +171,12 @@ const resetSliderPrice = () => {
   const slider = document.querySelector('.ad-form__slider');
   slider.noUiSlider.reset();
 };
-
-const hiddeningElementClick = (element) => element.addEventListener('click', (evt) => {
+const elementClickHandler = (evt) => {
   if(evt.currentTarget.matches('.success') || evt.currentTarget.matches('.error') ) {
-    element.classList.add('hidden');
+    evt.target.classList.add('hidden');
   }
-});
+};
+const hiddeningElementClick = (element) => element.addEventListener('click', elementClickHandler);
 
 const hiddeningElementEsc = (element) => {
   const handleBodyKeydown = (evt) => {
@@ -211,7 +217,7 @@ const showFail = () => {
 };
 
 const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd) => {
-  adForm.addEventListener('submit', (evt) => {
+  const adformSubmintHandler = (evt) => {
     if(!pristine.validate()) {
       return false;
     }
@@ -224,12 +230,13 @@ const onSubmitAdForm = (sendAdForm, latLng, resetMainPinMarker,restartGetListAd)
     filterForm.reset();
     restartGetListAd();
     resetMainPinMarker();
-  });
+  };
+  adForm.addEventListener('submit', adformSubmintHandler);
 };
 
 const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
   const buttonReset = adForm.querySelector('.ad-form__reset');
-  buttonReset.addEventListener('click', (evt) => {
+  const buttonResetClickHandler = (evt) => {
     evt.preventDefault();
     resetAdForm();
     address.value = Object.values(latLng);
@@ -237,6 +244,7 @@ const onResetAdForm = (latLng, resetMainPinMarker, restartGetListAd) => {
     filterForm.reset();
     restartGetListAd();
     resetMainPinMarker();
-  });
+  };
+  buttonReset.addEventListener('click', buttonResetClickHandler);
 };
 export{ initialingTheForm, onSubmitAdForm, onResetAdForm };
