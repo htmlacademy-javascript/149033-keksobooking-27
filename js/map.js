@@ -2,10 +2,10 @@ import { creatAd } from './card.js';
 import { initialingTheMap } from './init-map.js';
 import { getFilteredAds } from './filter.js';
 import { debounce } from './util.js';
-const MAIN_PIN_WIDTH_LENGTH = [52, 52];
-const MAIN_PIN_ANCHOR_XY = [26, 52];
-const PIN_WIDTH_LENGTH = [40, 40];
-const PIN_ANCHOR_XY = [20, 40];
+const COORDINATES_MAIN_PIN_WIDTH_LENGTH = [52, 52];
+const COORDINATES_MAIN_PIN_ANCHOR_XY = [26, 52];
+const COORDINATES_PIN_WIDTH_LENGTH = [40, 40];
+const COORDINATES_PIN_ANCHOR_XY = [20, 40];
 const DELAY_TIME = 2000;
 const NUMBER_OF_DECIMAL_PLACES = 5;
 const address = document.querySelector('#address');
@@ -13,14 +13,14 @@ const map = initialingTheMap();
 
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
-  iconSize: MAIN_PIN_WIDTH_LENGTH,
-  iconAnchor: MAIN_PIN_ANCHOR_XY,
+  iconSize: COORDINATES_MAIN_PIN_WIDTH_LENGTH,
+  iconAnchor: COORDINATES_MAIN_PIN_ANCHOR_XY,
 });
 
 const pinIcon = L.icon({
   iconUrl: '/img/pin.svg',
-  iconSize: PIN_WIDTH_LENGTH,
-  iconAnchor: PIN_ANCHOR_XY,
+  iconSize: COORDINATES_PIN_WIDTH_LENGTH,
+  iconAnchor: COORDINATES_PIN_ANCHOR_XY,
 });
 const styleError = `
   background-color: white;
