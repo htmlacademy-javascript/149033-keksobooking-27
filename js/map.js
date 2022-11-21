@@ -94,11 +94,11 @@ const creatMarkersOnMap = (ads) => {
 
 const mainMarkerCurrent = creatMainMarker(map, latLng , mainPinIcon);
 mainMarkerCurrent.addTo(map);
-const markerMoveendHandler = (evt) => {
+const markerMoveEndHandler = (evt) => {
   const {lng, lat} = evt.target.getLatLng();
   address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
 };
-mainMarkerCurrent.on('moveend', markerMoveendHandler).addTo(map);
+mainMarkerCurrent.on('moveend', markerMoveEndHandler).addTo(map);
 const resetMainPinMarker = () => {
   map.closePopup();
   map.setView(new L.LatLng(latLng.lat, latLng.lng), zoom);

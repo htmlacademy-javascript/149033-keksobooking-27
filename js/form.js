@@ -157,11 +157,11 @@ const initialingTheForm = () => {
   };
   timeout.addEventListener('change', timeoutChangeHandler);
 
-  const adformSubmintHandler = (evt) => {
+  const adFormSubmintHandler = (evt) => {
     evt.preventDefault();
     pristine.validate();
   };
-  adForm.addEventListener('submit', adformSubmintHandler);
+  adForm.addEventListener('submit', adFormSubmintHandler);
 
   const setAdrressReadonly = () => address.setAttribute('readonly', 'readonly');
   setAdrressReadonly();
