@@ -2,24 +2,25 @@ import { creatAd } from './card.js';
 import { initialingTheMap } from './init-map.js';
 import { getFilteredAds } from './filter.js';
 import { debounce } from './util.js';
-const MAIN_PIN_WIDTH_LENGTH = [52, 52];
-const MAIN_PIN_ANCHOR_XY = [26, 52];
-const PIN_WIDTH_LENGTH = [40, 40];
-const PIN_ANCHOR_XY = [20, 40];
+const COORDINATES_MAIN_PIN_WIDTH_LENGTH = [52, 52];
+const COORDINATES_MAIN_PIN_ANCHOR_XY = [26, 52];
+const COORDINATES_PIN_WIDTH_LENGTH = [40, 40];
+const COORDINATES_PIN_ANCHOR_XY = [20, 40];
 const DELAY_TIME = 2000;
-const address = document.querySelector('#address');
+const NUMBER_OF_DECIMAL_PLACES = 5;
+const addressElement = document.querySelector('#address');
 const map = initialingTheMap();
 
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
-  iconSize: MAIN_PIN_WIDTH_LENGTH,
-  iconAnchor: MAIN_PIN_ANCHOR_XY,
+  iconSize: COORDINATES_MAIN_PIN_WIDTH_LENGTH,
+  iconAnchor: COORDINATES_MAIN_PIN_ANCHOR_XY,
 });
 
 const pinIcon = L.icon({
   iconUrl: '/img/pin.svg',
-  iconSize: PIN_WIDTH_LENGTH,
-  iconAnchor: PIN_ANCHOR_XY,
+  iconSize: COORDINATES_PIN_WIDTH_LENGTH,
+  iconAnchor: COORDINATES_PIN_ANCHOR_XY,
 });
 const styleError = `
   background-color: white;
@@ -30,18 +31,18 @@ const styleError = `
   z-index: 999 `;
 
 const showErrorMessageMarkers = (err) => {
-  const mapCanvas = document.querySelector('.map__canvas');
+  const mapCanvasElement = document.querySelector('.map__canvas');
   const errorElement = document.createElement('div');
   errorElement.style.cssText = styleError;
   errorElement.textContent = `${err}`;
   const toggleError = () => errorElement.classList.toggle('hidden');
   setInterval(toggleError, DELAY_TIME);
-  mapCanvas.append(errorElement);
+  mapCanvasElement.append(errorElement);
 };
 
 const creatMainMarker = (currentMap, currentLatLng, icon) => {
 
-  address.setAttribute('readonly', 'readonly');
+  addressElement.setAttribute('readonly', 'readonly');
 
   const mainMarker = L.marker(
     currentLatLng,
@@ -50,7 +51,7 @@ const creatMainMarker = (currentMap, currentLatLng, icon) => {
       icon: icon,
     },
   );
-  document.querySelector('#address').value = Object.values(currentLatLng);
+  document.querySelector('#address').value = `${currentLatLng.lat.toFixed(NUMBER_OF_DECIMAL_PLACES)}, ${currentLatLng.lng.toFixed(NUMBER_OF_DECIMAL_PLACES)}`;
 
   return mainMarker;
 };
@@ -93,11 +94,11 @@ const creatMarkersOnMap = (ads) => {
 
 const mainMarkerCurrent = creatMainMarker(map, latLng , mainPinIcon);
 mainMarkerCurrent.addTo(map);
-const markerMoveendHandler = (evt) => {
+const markerMoveEndHandler = (evt) => {
   const {lng, lat} = evt.target.getLatLng();
-  address.value = `${lng.toFixed(5)},${lat.toFixed(5)}`;
+  addressElement.value = `${lng.toFixed(NUMBER_OF_DECIMAL_PLACES)},${lat.toFixed(NUMBER_OF_DECIMAL_PLACES)}`;
 };
-mainMarkerCurrent.on('moveend', markerMoveendHandler).addTo(map);
+mainMarkerCurrent.on('moveend', markerMoveEndHandler).addTo(map);
 const resetMainPinMarker = () => {
   map.closePopup();
   map.setView(new L.LatLng(latLng.lat, latLng.lng), zoom);
