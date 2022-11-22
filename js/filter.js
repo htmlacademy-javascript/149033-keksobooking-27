@@ -2,11 +2,11 @@ const LIMIT_ADS = 10;
 const LOW_PRICE = 10000;
 const HIGH_PRICE = 50000;
 
-const filterForm = document.querySelector('.map__filters');
-const housingTypeSelectElement = filterForm.querySelector('#housing-type');
-const housingPriceSelectElement = filterForm.querySelector('#housing-price');
-const housingRoomsSelectElement = filterForm.querySelector('#housing-rooms');
-const housingGuestsSelectElement = filterForm.querySelector('#housing-guests');
+const filterFormElement = document.querySelector('.map__filters');
+const housingTypeSelectElement = filterFormElement.querySelector('#housing-type');
+const housingPriceSelectElement = filterFormElement.querySelector('#housing-price');
+const housingRoomsSelectElement = filterFormElement.querySelector('#housing-rooms');
+const housingGuestsSelectElement = filterFormElement.querySelector('#housing-guests');
 const getAnyPrice = () => true;
 const getToLowPrice = (priceInterval) => priceInterval < LOW_PRICE;
 const getBetweenLowAndHighPrice = (priceInterval) => priceInterval >= LOW_PRICE && priceInterval < HIGH_PRICE;
@@ -38,7 +38,7 @@ const getFilteredAds = (ads) => {
   const price = housingPriceSelectElement.value;
   const rooms = housingRoomsSelectElement.value;
   const guests = housingGuestsSelectElement.value;
-  const housingFeaturesElements = filterForm.querySelectorAll('.map__checkbox:checked');
+  const housingFeaturesElements = filterFormElement.querySelectorAll('.map__checkbox:checked');
   const features = Array.from(housingFeaturesElements).map((el) => el.value);
 
   const filteredAds = [];
