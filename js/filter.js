@@ -9,13 +9,13 @@ const housingRoomsSelectElement = filterForm.querySelector('#housing-rooms');
 const housingGuestsSelectElement = filterForm.querySelector('#housing-guests');
 const getAnyPrice = () => true;
 const getToLowPrice = (priceInterval) => priceInterval < LOW_PRICE;
-const getBetweenLowAndHightPrice = (priceInterval) => priceInterval >= LOW_PRICE && priceInterval < HIGH_PRICE;
-const getAboveHightPrice = (priceInterval) => priceInterval >= HIGH_PRICE;
+const getBetweenLowAndHighPrice = (priceInterval) => priceInterval >= LOW_PRICE && priceInterval < HIGH_PRICE;
+const getAboveHighPrice = (priceInterval) => priceInterval >= HIGH_PRICE;
 const priceIntervals = {
   any: getAnyPrice,
   low: getToLowPrice,
-  middle: getBetweenLowAndHightPrice,
-  high: getAboveHightPrice
+  middle: getBetweenLowAndHighPrice,
+  high: getAboveHighPrice
 };
 const isTypeSelected = (ad, type) => type === 'any' || ad.offer.type === type;
 const isPriceSelected = (ad, priceInterval) => priceIntervals[priceInterval](ad.offer.price);

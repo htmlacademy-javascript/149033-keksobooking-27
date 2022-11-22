@@ -1,4 +1,4 @@
-import { isVildTypeImg } from './valid-arguments.js';
+import { isValidTypeImg } from './valid-arguments.js';
 const DEFAULT_PREVIEW = 'img/muffin-grey.svg';
 const adFormElement = document.querySelector('.ad-form');
 const fileAvatarElement = adFormElement.querySelector('#avatar');
@@ -18,7 +18,7 @@ const createdElementImg = (element) => {
 const imgChangeHandler = (inputImg, previewImg) => {
   const file = inputImg.files[0];
   const fileName = file.name.toLowerCase();
-  if (file && isVildTypeImg(fileName)) {
+  if (file && isValidTypeImg(fileName)) {
     const imgElement = previewImg.querySelector('img') ?? createdElementImg(previewImg);
     imgElement.src = URL.createObjectURL(file);
   }
